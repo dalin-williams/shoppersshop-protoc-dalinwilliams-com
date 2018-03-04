@@ -1,0 +1,959 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a simple vending machine server. You can read up more on this vending machine on the repo @ [my repo](https://github.com/dalin-williams/shoppersshop-dalinwilliams.com). I'm using swagger simply because it'll allow me to move a bit faster in the development of this API- allowing swagger to take care of the documentation for me!",
+    "version": "1.0.0",
+    "title": "SHOPPERS SHOP: Vending Machine",
+    "termsOfService": "http://owlsnest.io/terms/",
+    "contact": {
+      "email": "dalin@owlsnest.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "api.owlsnest.io",
+  "basePath": "/vending/v1",
+  "tags": [
+    {
+      "name": "vend",
+      "description": "Vend items"
+    },
+    {
+      "name": "inventory",
+      "description": "Access to Vending Machine inventory"
+    },
+    {
+      "name": "session",
+      "description": "Sesion Management"
+    },
+    {
+      "name": "pay",
+      "description": "Select and send tender to get items"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/vend": {
+      "get": {
+        "tags": [
+          "vend"
+        ],
+        "summary": "web-hook endpoint representing vended items by this session",
+        "description": "The endpoint representing all of the items you've ever purchased - thanks!",
+        "operationId": "getUserVen",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Vend transaction retrieved",
+            "schema": {
+              "$ref": "#/definitions/Vend"
+            }
+          },
+          "404": {
+            "description": "Session info not found"
+          }
+        },
+        "security": [
+          {
+            "vendingMachineAuth": [
+              "read:transaction"
+            ]
+          }
+        ]
+      }
+    },
+    "/vend/{id}": {
+      "get": {
+        "tags": [
+          "vend"
+        ],
+        "summary": "Web-hook and transaction query",
+        "description": "This endpoint gives access to transactions created by {TransactionId, UserId}",
+        "operationId": "getTransactionVendById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id we want to query for transactions",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vend transaction retrieved",
+            "schema": {
+              "$ref": "#/definitions/Vend"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Vend ID not found"
+          }
+        },
+        "security": [
+          {
+            "vendingMachineAuth": [
+              "read:transaction"
+            ]
+          }
+        ]
+      }
+    },
+    "/inventory/search": {
+      "get": {
+        "tags": [
+          "inventory"
+        ],
+        "summary": "Finds inventory items by query params",
+        "description": "Search the inventory by query params",
+        "operationId": "searchForItems",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "The item names - can pass many items",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "The category names - can pass many items",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "description": "The category names - can pass many items",
+            "required": false,
+            "type": "number",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Item successfully returned",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Inventory"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          },
+          "404": {
+            "description": "Item not found"
+          },
+          "405": {
+            "description": "Inventory search exception"
+          }
+        }
+      }
+    },
+    "/inventory": {
+      "get": {
+        "tags": [
+          "inventory"
+        ],
+        "summary": "Finds Pets by status",
+        "description": "Get all stores once can vend the inventory by name",
+        "operationId": "getAllItemCategories",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Inventory query successfully returned",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "store": {
+                    "type": "string"
+                  },
+                  "categories": {
+                    "$ref": "#/definitions/Category"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          },
+          "404": {
+            "description": "Item not found"
+          },
+          "405": {
+            "description": "Inventory search exception"
+          }
+        }
+      }
+    },
+    "/pay/purchase/{id}": {
+      "put": {
+        "tags": [
+          "pay"
+        ],
+        "summary": "Add an item via id to your cart",
+        "operationId": "payAddToCart",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A specific item id you wish to purchase",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "item with id not found"
+          }
+        }
+      }
+    },
+    "/pay/purchase": {
+      "get": {
+        "tags": [
+          "pay"
+        ],
+        "summary": "See all items in your virtual cart",
+        "description": "Shows all items in your cart",
+        "operationId": "payViewCart",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Purchase cart: successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Inventory"
+              }
+            }
+          },
+          "400": {
+            "description": "Cart empty"
+          }
+        },
+        "security": [
+          {
+            "vendingMachineAuth": [
+              "read:cart"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "pay"
+        ],
+        "summary": "Initilize a vending transaction",
+        "description": "Purchases all items in your cart",
+        "operationId": "payPurchaseCart",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Purchase cart: successful operation",
+            "schema": {
+              "type": "string",
+              "description": "URI",
+              "format": "uri"
+            }
+          },
+          "400": {
+            "description": "Cart empty"
+          }
+        },
+        "security": [
+          {
+            "vendingMachineAuth": [
+              "write:cart"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/pay/{orderId}": {
+      "post": {
+        "tags": [
+          "pay"
+        ],
+        "summary": "Re-order items",
+        "description": "Adds all items from the given order back to the cart",
+        "operationId": "payReOrderItems",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "ID of order to re-order",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "OrderID not found"
+          }
+        },
+        "security": [
+          {
+            "vendingMachineAuth": [
+              "write:cart"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "pay"
+        ],
+        "summary": "Updates an old order",
+        "description": "Updates an old order IF it is not completed",
+        "operationId": "payUpdateOrder",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "ID of order that needs to be updated",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated Vend Object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Vend"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order Updated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "call-back": {
+                  "type": "string",
+                  "format": "url"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order Not Found"
+          },
+          "405": {
+            "description": "Invalid payload"
+          }
+        },
+        "security": [
+          {
+            "vendingMachineAuth": [
+              "write:cart"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "pay"
+        ],
+        "summary": "Deletes a order IF it is not complete",
+        "description": "Delete an outstanding order",
+        "operationId": "payDeleteOrder",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "Order ID to delete",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Order not found"
+          }
+        },
+        "security": [
+          {
+            "vendingMachineAuth": [
+              "write:cart"
+            ]
+          },
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/session": {
+      "get": {
+        "tags": [
+          "session"
+        ],
+        "summary": "Get the session",
+        "description": "Returns the current session ID or creates one",
+        "operationId": "sessionGetCurrentSession",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "session_id": {
+                  "type": "string",
+                  "description": "The session_id"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "session_id": {
+                  "type": "string",
+                  "description": "The session_id"
+                }
+              }
+            },
+            "headers": {
+              "X-Rate-Limit": {
+                "type": "integer",
+                "format": "int32",
+                "description": "calls per hour allowed by the user"
+              },
+              "X-Expires-After": {
+                "type": "string",
+                "format": "date-time",
+                "description": "date in UTC when token expires"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/session/logout": {
+      "post": {
+        "tags": [
+          "session"
+        ],
+        "summary": "Logs out current logged in user session",
+        "description": "Logs out the given user",
+        "operationId": "logoutUser",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/session/login": {
+      "get": {
+        "tags": [
+          "session"
+        ],
+        "summary": "Logs user into the system",
+        "description": "Logs in the current user into the vending machine",
+        "operationId": "loginUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "The user name for login",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "The password for login in clear text",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "The logged-in user ID"
+                }
+              }
+            },
+            "headers": {
+              "X-Rate-Limit": {
+                "type": "integer",
+                "format": "int32",
+                "description": "calls per hour allowed by the user"
+              },
+              "X-Expires-After": {
+                "type": "string",
+                "format": "date-time",
+                "description": "date in UTC when token expires"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username/password supplied"
+          }
+        }
+      }
+    },
+    "/session/user": {
+      "post": {
+        "tags": [
+          "session"
+        ],
+        "summary": "Creates a user session",
+        "description": "Creates a session with the given user",
+        "operationId": "sessionCreateSession",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "The user ID"
+                }
+              }
+            },
+            "headers": {
+              "X-Rate-Limit": {
+                "type": "integer",
+                "format": "int32",
+                "description": "calls per hour allowed by the user"
+              },
+              "X-Expires-After": {
+                "type": "string",
+                "format": "date-time",
+                "description": "date in UTC when token expires"
+              }
+            }
+          },
+          "201": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "session_id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "The session ID"
+                }
+              }
+            },
+            "headers": {
+              "X-Rate-Limit": {
+                "type": "integer",
+                "format": "int32",
+                "description": "calls per hour allowed by the user"
+              },
+              "X-Expires-After": {
+                "type": "string",
+                "format": "date-time",
+                "description": "date in UTC when token expires"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/session/{userId}": {
+      "get": {
+        "tags": [
+          "session"
+        ],
+        "summary": "Get session or user by ID",
+        "description": "Gets the session/user represented by the passed UUID",
+        "operationId": "getUserByName",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "the user or session ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid user/session ID supplied"
+          },
+          "404": {
+            "description": "User/session not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "session"
+        ],
+        "summary": "Updated user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "updateUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "the user or session ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid user supplied"
+          },
+          "403": {
+            "description": "Session ID given user ID required to update user"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "session"
+        ],
+        "summary": "Delete user",
+        "description": "Deletes current user.",
+        "operationId": "deleteUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The name that needs to be deleted",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "405": {
+            "description": "Session ID given user ID required to update user"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "basic"
+    },
+    "vendingMachineAuth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "read:cart": "see cart itmes",
+        "write:cart": "add items to cart",
+        "write:transaction": "buy things in your name",
+        "read:transaction": "see all transactions"
+      }
+    }
+  },
+  "definitions": {
+    "Inventory": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "cost": {
+          "type": "number",
+          "format": "int32"
+        },
+        "url": {
+          "type": "string"
+        },
+        "photoUrls": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Tag"
+          }
+        }
+      },
+      "xml": {
+        "name": "Inventory"
+      }
+    },
+    "Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Category"
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "username": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "userStatus": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User Status"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "Tag": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Tag"
+      }
+    },
+    "Vend": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "total": {
+          "type": "number",
+          "format": "int32"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "item": {
+                "$ref": "#/definitions/Inventory"
+              },
+              "category": {
+                "$ref": "#/definitions/Category"
+              },
+              "quantity": {
+                "type": "number",
+                "format": "int32",
+                "description": "The number of item x bought"
+              }
+            }
+          }
+        },
+        "status": {
+          "type": "string",
+          "description": "Order Status",
+          "enum": [
+            "placed",
+            "approved",
+            "delivered",
+            "cancelled"
+          ],
+          "default": "placed"
+        }
+      },
+      "xml": {
+        "name": "Vend"
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about owlsnest?",
+    "url": "https://owlsnest.io"
+  }
+}
