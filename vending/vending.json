@@ -53,7 +53,12 @@
           "200": {
             "description": "Vend transaction retrieved",
             "schema": {
-              "$ref": "#/definitions/Vend"
+              "type": "object",
+              "properties": {
+                "vend": {
+                  "$ref": "#/definitions/Vend"
+                }
+              }
             }
           },
           "404": {
@@ -94,7 +99,12 @@
           "200": {
             "description": "Vend transaction retrieved",
             "schema": {
-              "$ref": "#/definitions/Vend"
+              "type": "object",
+              "properties": {
+                "vend":{
+                  "$ref": "#/definitions/Vend"
+                }
+              }
             }
           },
           "400": {
@@ -292,9 +302,13 @@
           "200": {
             "description": "Purchase cart: successful operation",
             "schema": {
-              "type": "string",
-              "description": "URI",
-              "format": "uri"
+              "type": "object",
+              "properties": {
+                "call-uri": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
             }
           },
           "400": {
@@ -590,9 +604,6 @@
           }
         ],
         "responses": {
-          "403" : {
-            "description": "Forbidden: Username already exists"
-          },
           "201": {
             "description": "successful operation",
             "schema": {
@@ -617,6 +628,9 @@
                 "description": "date in UTC when token expires"
               }
             }
+          },
+          "403": {
+            "description": "Forbidden: Username already exists"
           }
         }
       },
@@ -714,7 +728,12 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/User"
+              "type": "object",
+              "properties": {
+                "user": {
+                  "$ref": "#/definitions/User"
+                }
+              }
             }
           },
           "400": {

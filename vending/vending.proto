@@ -31,6 +31,10 @@ message PayViewCartResponse {
     repeated Inventory items = 1;
 }
 
+message PayPurchaseCartResponse {
+    string call_uri = 1;
+}
+
 message PayAddToCartRequest {
     // A specific item id you wish to purchase
     double id = 1;
@@ -89,6 +93,10 @@ message SessionGetUserByUserIdRequest {
     string userId = 1;
 }
 
+message SessionGetUserByUserIdResponse {
+    User user = 1;
+}
+
 message SessionUpdateUserRequest {
     // Updated user object
     User body = 1;
@@ -101,9 +109,17 @@ message SessionDeleteUserRequest {
     string userId = 1;
 }
 
+message VendGetSessionVendResponse {
+    Vend vend = 1;
+}
+
 message VendGetVendByIdRequest {
     // The id we want to query for transactions
     string id = 1;
+}
+
+message VendGetVendByIdResponse {
+    Vend vend = 1;
 }
 
 message ApiResponse {
@@ -191,7 +207,7 @@ service SHOPPERSSHOP_VendingMachineService {
     // Initilize a vending transaction
     // 
     // Purchases all items in your cart
-    rpc PayPurchaseCart(google.protobuf.Empty) returns (google.protobuf.Empty) {
+    rpc PayPurchaseCart(google.protobuf.Empty) returns (PayPurchaseCartResponse) {
       option (google.api.http) = {
         post: "/vending/v1/pay/purchase"
       };
@@ -271,7 +287,7 @@ service SHOPPERSSHOP_VendingMachineService {
     // Get session or user by ID
     // 
     // Gets the session/user represented by the passed UUID
-    rpc SessionGetUserByUserId(SessionGetUserByUserIdRequest) returns (User) {
+    rpc SessionGetUserByUserId(SessionGetUserByUserIdRequest) returns (SessionGetUserByUserIdResponse) {
       option (google.api.http) = {
         get: "/vending/v1/session/{userId}"
       };
@@ -296,7 +312,7 @@ service SHOPPERSSHOP_VendingMachineService {
     // web-hook endpoint representing vended items by this session
     // 
     // The endpoint representing all of the items you've ever purchased - thanks!
-    rpc VendGetSessionVend(google.protobuf.Empty) returns (Vend) {
+    rpc VendGetSessionVend(google.protobuf.Empty) returns (VendGetSessionVendResponse) {
       option (google.api.http) = {
         get: "/vending/v1/vend"
       };
@@ -304,7 +320,7 @@ service SHOPPERSSHOP_VendingMachineService {
     // Web-hook and transaction query
     // 
     // This endpoint gives access to transactions created by {TransactionId, UserId}
-    rpc VendGetVendById(VendGetVendByIdRequest) returns (Vend) {
+    rpc VendGetVendById(VendGetVendByIdRequest) returns (VendGetVendByIdResponse) {
       option (google.api.http) = {
         get: "/vending/v1/vend/{id}"
       };
