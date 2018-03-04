@@ -53,7 +53,12 @@
           "200": {
             "description": "Vend transaction retrieved",
             "schema": {
-              "$ref": "#/definitions/Vend"
+              "type": "object",
+              "properties": {
+                "vend": {
+                  "$ref": "#/definitions/Vend"
+                }
+              }
             }
           },
           "404": {
@@ -94,7 +99,12 @@
           "200": {
             "description": "Vend transaction retrieved",
             "schema": {
-              "$ref": "#/definitions/Vend"
+              "type": "object",
+              "properties": {
+                "vend":{
+                  "$ref": "#/definitions/Vend"
+                }
+              }
             }
           },
           "400": {
@@ -219,6 +229,38 @@
         }
       }
     },
+    "/pay": {
+      "get": {
+        "tags": [
+          "pay"
+        ],
+        "summary": "View all valid payment schemas",
+        "operationId": "payViewPaymentInfo",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Currency"
+              }
+            }
+          },
+          "409": {
+            "description": "Illegal operation"
+          },
+          "405": {
+            "description": "Method of interaction is illegal"
+          },
+          "404": {
+            "description": "item with id not found"
+          }
+        }
+      }
+    },
     "/pay/purchase/{id}": {
       "put": {
         "tags": [
@@ -258,7 +300,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Purchase cart: successful operation",
+            "description": "successful operation",
             "schema": {
               "type": "array",
               "items": {
@@ -282,23 +324,52 @@
         "tags": [
           "pay"
         ],
-        "summary": "Initilize a vending transaction",
+        "summary": "Initialize a vending transaction",
         "description": "Purchases all items in your cart",
         "operationId": "payPurchaseCart",
+        "consumes": [
+          "application/json"
+        ],
         "produces": [
           "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "currency": {
+                  "$ref": "#/definitions/Currency"
+                },
+                "payment": {
+                  "type": "number",
+                  "format": "int32"
+                }
+              }
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "Purchase cart: successful operation",
             "schema": {
-              "type": "string",
-              "description": "URI",
-              "format": "uri"
+              "type": "object",
+              "properties": {
+                "call-uri": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
             }
           },
           "400": {
             "description": "Cart empty"
+          },
+          "405": {
+            "description": "Invalid amount given"
           }
         },
         "security": [
@@ -308,7 +379,7 @@
             ]
           },
           {
-            "api_key": []
+            "Bearer": []
           }
         ]
       }
@@ -349,7 +420,7 @@
             ]
           },
           {
-            "api_key": []
+            "Bearer": []
           }
         ]
       },
@@ -412,7 +483,7 @@
             ]
           },
           {
-            "api_key": []
+            "Bearer": []
           }
         ]
       },
@@ -437,6 +508,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "successful operation"
+          },
           "400": {
             "description": "Invalid ID supplied"
           },
@@ -451,7 +525,7 @@
             ]
           },
           {
-            "api_key": []
+            "Bearer": []
           }
         ]
       }
@@ -525,7 +599,7 @@
         },
         "security": [
           {
-            "api_key": []
+            "Bearer": []
           }
         ]
       }
@@ -590,9 +664,6 @@
           }
         ],
         "responses": {
-          "403" : {
-            "description": "Forbidden: Username already exists"
-          },
           "201": {
             "description": "successful operation",
             "schema": {
@@ -617,6 +688,9 @@
                 "description": "date in UTC when token expires"
               }
             }
+          },
+          "403": {
+            "description": "Forbidden: Username already exists"
           }
         }
       },
@@ -684,7 +758,7 @@
         },
         "security": [
           {
-            "api_key": []
+            "Bearer": []
           }
         ]
       }
@@ -714,7 +788,12 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/User"
+              "type": "object",
+              "properties": {
+                "user": {
+                  "$ref": "#/definitions/User"
+                }
+              }
             }
           },
           "400": {
@@ -801,8 +880,10 @@
     }
   },
   "securityDefinitions": {
-    "api_key": {
-      "type": "basic"
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
     },
     "vendingMachineAuth": {
       "type": "oauth2",
@@ -964,6 +1045,23 @@
       },
       "xml": {
         "name": "Vend"
+      }
+    },
+    "Currency": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "symbol": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        }
       }
     },
     "ApiResponse": {

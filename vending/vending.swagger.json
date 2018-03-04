@@ -1,0 +1,783 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "vending/vending.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/vending/v1/inventory": {
+      "get": {
+        "summary": "Finds Pets by status",
+        "description": "Get all stores once can vend the inventory by name",
+        "operationId": "InventorySearchAllItemCategories",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/shoppersshop_vendingmachineInventorySearchAllItemCategoriesResponse"
+            }
+          }
+        },
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      }
+    },
+    "/vending/v1/inventory/search": {
+      "get": {
+        "summary": "Finds inventory items by query params",
+        "description": "Search the inventory by query params",
+        "operationId": "InventorySearchForItems",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/shoppersshop_vendingmachineInventorySearchForItemsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "category",
+            "description": "The category names - can pass many items.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "description": "The item names - can pass many items.",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "price",
+            "description": "The category names - can pass many items.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      }
+    },
+    "/vending/v1/pay": {
+      "get": {
+        "summary": "View all valid payment schemas",
+        "operationId": "PayViewPaymentInfo",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/shoppersshop_vendingmachinePayViewPaymentInfoResponse"
+            }
+          }
+        },
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      }
+    },
+    "/vending/v1/pay/purchase": {
+      "get": {
+        "summary": "See all items in your virtual cart",
+        "description": "Shows all items in your cart",
+        "operationId": "PayViewCart",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/shoppersshop_vendingmachinePayViewCartResponse"
+            }
+          }
+        },
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      },
+      "post": {
+        "summary": "Initialize a vending transaction",
+        "description": "Purchases all items in your cart",
+        "operationId": "PayPurchaseCart",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/shoppersshop_vendingmachinePayPurchaseCartResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PayPurchaseCartRequestBody"
+            }
+          }
+        ],
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      }
+    },
+    "/vending/v1/pay/purchase/{id}": {
+      "put": {
+        "summary": "Add an item via id to your cart",
+        "operationId": "PayAddToCart",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "number",
+            "format": "double"
+          }
+        ],
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      }
+    },
+    "/vending/v1/pay/{orderId}": {
+      "delete": {
+        "summary": "Deletes a order IF it is not complete",
+        "description": "Delete an outstanding order",
+        "operationId": "PayDeleteOrder",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      },
+      "post": {
+        "summary": "Re-order items",
+        "description": "Adds all items from the given order back to the cart",
+        "operationId": "PayReOrderItems",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      },
+      "put": {
+        "summary": "Updates an old order",
+        "description": "Updates an old order IF it is not completed",
+        "operationId": "PayUpdateOrder",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/shoppersshop_vendingmachinePayUpdateOrderResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/shoppersshop_vendingmachineVend"
+            }
+          }
+        ],
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      }
+    },
+    "/vending/v1/session": {
+      "get": {
+        "summary": "Get the session",
+        "description": "Returns the current session ID or creates one",
+        "operationId": "SessionGetCurrentSession",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/shoppersshop_vendingmachineSessionGetCurrentSessionResponse"
+            }
+          }
+        },
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      }
+    },
+    "/vending/v1/session/login": {
+      "get": {
+        "summary": "Logs user into the system",
+        "description": "Logs in the current user into the vending machine",
+        "operationId": "SessionLoginUser",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "password",
+            "description": "The password for login in clear text.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "username",
+            "description": "The user name for login.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      }
+    },
+    "/vending/v1/session/logout": {
+      "post": {
+        "summary": "Logs out current logged in user session",
+        "description": "Logs out the given user",
+        "operationId": "SessionLogoutUser",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      }
+    },
+    "/vending/v1/session/user": {
+      "post": {
+        "summary": "Creates a new user",
+        "description": "Creates a user, returns the user id",
+        "operationId": "SessionCreateUser",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/shoppersshop_vendingmachineSessionCreateUserResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/shoppersshop_vendingmachineUser"
+            }
+          }
+        ],
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      },
+      "put": {
+        "summary": "Creates a user session",
+        "description": "Creates a session with the given user",
+        "operationId": "SessionCreateSession",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/shoppersshop_vendingmachineSessionCreateSessionResponse"
+            }
+          }
+        },
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      }
+    },
+    "/vending/v1/session/{userId}": {
+      "get": {
+        "summary": "Get session or user by ID",
+        "description": "Gets the session/user represented by the passed UUID",
+        "operationId": "SessionGetUserByUserId",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/shoppersshop_vendingmachineSessionGetUserByUserIdResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      },
+      "delete": {
+        "summary": "Delete user",
+        "description": "Deletes current user.",
+        "operationId": "SessionDeleteUser",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      },
+      "put": {
+        "summary": "Updated user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "SessionUpdateUser",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/shoppersshop_vendingmachineUser"
+            }
+          }
+        ],
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      }
+    },
+    "/vending/v1/vend": {
+      "get": {
+        "summary": "web-hook endpoint representing vended items by this session",
+        "description": "The endpoint representing all of the items you've ever purchased - thanks!",
+        "operationId": "VendGetSessionVend",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/shoppersshop_vendingmachineVendGetSessionVendResponse"
+            }
+          }
+        },
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      }
+    },
+    "/vending/v1/vend/{id}": {
+      "get": {
+        "summary": "Web-hook and transaction query",
+        "description": "This endpoint gives access to transactions created by {TransactionId, UserId}",
+        "operationId": "VendGetVendById",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/shoppersshop_vendingmachineVendGetVendByIdResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "PayPurchaseCartRequestBody": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "$ref": "#/definitions/shoppersshop_vendingmachineCurrency"
+        },
+        "payment": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "VendVend_Statu": {
+      "type": "string",
+      "enum": [
+        "VEND_STATU_PLACED",
+        "VEND_STATU_APPROVED",
+        "VEND_STATU_DELIVERED",
+        "VEND_STATU_CANCELLED"
+      ],
+      "default": "VEND_STATU_PLACED",
+      "title": "Order Status"
+    },
+    "protobufEmpty": {
+      "type": "object",
+      "description": "service Foo {\n      rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);\n    }\n\nThe JSON representation for `Empty` is empty JSON object `{}`.",
+      "title": "A generic empty message that you can re-use to avoid defining duplicated\nempty messages in your APIs. A typical example is to use it as the request\nor the response type of an API method. For instance:"
+    },
+    "shoppersshop_vendingmachineCategory": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "shoppersshop_vendingmachineCurrency": {
+      "type": "object",
+      "properties": {
+        "country": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "symbol": {
+          "type": "string"
+        }
+      }
+    },
+    "shoppersshop_vendingmachineInventory": {
+      "type": "object",
+      "properties": {
+        "cost": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "photoUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/shoppersshop_vendingmachineTag"
+          }
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "shoppersshop_vendingmachineInventorySearchAllItemCategoriesResponse": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/shoppersshop_vendingmachineInventorySearchAllItemCategoriesResponseItem"
+          }
+        }
+      }
+    },
+    "shoppersshop_vendingmachineInventorySearchAllItemCategoriesResponseItem": {
+      "type": "object",
+      "properties": {
+        "categories": {
+          "$ref": "#/definitions/shoppersshop_vendingmachineCategory"
+        },
+        "store": {
+          "type": "string"
+        }
+      }
+    },
+    "shoppersshop_vendingmachineInventorySearchForItemsResponse": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/shoppersshop_vendingmachineInventory"
+          }
+        }
+      }
+    },
+    "shoppersshop_vendingmachinePayPurchaseCartResponse": {
+      "type": "object",
+      "properties": {
+        "call_uri": {
+          "type": "string"
+        }
+      }
+    },
+    "shoppersshop_vendingmachinePayUpdateOrderResponse": {
+      "type": "object",
+      "properties": {
+        "call_back": {
+          "type": "string"
+        }
+      }
+    },
+    "shoppersshop_vendingmachinePayViewCartResponse": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/shoppersshop_vendingmachineInventory"
+          }
+        }
+      }
+    },
+    "shoppersshop_vendingmachinePayViewPaymentInfoResponse": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/shoppersshop_vendingmachineCurrency"
+          }
+        }
+      }
+    },
+    "shoppersshop_vendingmachineSessionCreateSessionResponse": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "title": "The user ID"
+        }
+      }
+    },
+    "shoppersshop_vendingmachineSessionCreateUserResponse": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "title": "The user ID"
+        }
+      }
+    },
+    "shoppersshop_vendingmachineSessionGetCurrentSessionResponse": {
+      "type": "object",
+      "properties": {
+        "session_id": {
+          "type": "string",
+          "title": "The session_id"
+        }
+      }
+    },
+    "shoppersshop_vendingmachineSessionGetUserByUserIdResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/shoppersshop_vendingmachineUser"
+        }
+      }
+    },
+    "shoppersshop_vendingmachineTag": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "shoppersshop_vendingmachineUser": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "userStatus": {
+          "type": "integer",
+          "format": "int32",
+          "title": "User Status"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "shoppersshop_vendingmachineVend": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/shoppersshop_vendingmachineVendItem"
+          }
+        },
+        "status": {
+          "$ref": "#/definitions/VendVend_Statu"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "shoppersshop_vendingmachineVendGetSessionVendResponse": {
+      "type": "object",
+      "properties": {
+        "vend": {
+          "$ref": "#/definitions/shoppersshop_vendingmachineVend"
+        }
+      }
+    },
+    "shoppersshop_vendingmachineVendGetVendByIdResponse": {
+      "type": "object",
+      "properties": {
+        "vend": {
+          "$ref": "#/definitions/shoppersshop_vendingmachineVend"
+        }
+      }
+    },
+    "shoppersshop_vendingmachineVendItem": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "$ref": "#/definitions/shoppersshop_vendingmachineCategory"
+        },
+        "item": {
+          "$ref": "#/definitions/shoppersshop_vendingmachineInventory"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "The number of item x bought"
+        }
+      }
+    }
+  }
+}

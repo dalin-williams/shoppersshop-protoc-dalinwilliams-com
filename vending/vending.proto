@@ -27,8 +27,24 @@ message InventorySearchForItemsResponse {
     repeated Inventory items = 1;
 }
 
+message PayViewPaymentInfoResponse {
+    repeated Currency items = 1;
+}
+
 message PayViewCartResponse {
     repeated Inventory items = 1;
+}
+
+message PayPurchaseCartRequest {
+    message Body {
+        Currency currency = 1;
+        int32 payment = 2;
+    }
+    Body body = 1;
+}
+
+message PayPurchaseCartResponse {
+    string call_uri = 1;
 }
 
 message PayAddToCartRequest {
@@ -89,6 +105,10 @@ message SessionGetUserByUserIdRequest {
     string userId = 1;
 }
 
+message SessionGetUserByUserIdResponse {
+    User user = 1;
+}
+
 message SessionUpdateUserRequest {
     // Updated user object
     User body = 1;
@@ -101,9 +121,17 @@ message SessionDeleteUserRequest {
     string userId = 1;
 }
 
+message VendGetSessionVendResponse {
+    Vend vend = 1;
+}
+
 message VendGetVendByIdRequest {
     // The id we want to query for transactions
     string id = 1;
+}
+
+message VendGetVendByIdResponse {
+    Vend vend = 1;
 }
 
 message ApiResponse {
@@ -115,6 +143,13 @@ message ApiResponse {
 message Category {
     string id = 1;
     string name = 2;
+}
+
+message Currency {
+    string country = 1;
+    string format = 2;
+    string name = 3;
+    string symbol = 4;
 }
 
 message Inventory {
@@ -180,6 +215,12 @@ service SHOPPERSSHOP_VendingMachineService {
         get: "/vending/v1/inventory/search"
       };
     }
+    // View all valid payment schemas
+    rpc PayViewPaymentInfo(google.protobuf.Empty) returns (PayViewPaymentInfoResponse) {
+      option (google.api.http) = {
+        get: "/vending/v1/pay"
+      };
+    }
     // See all items in your virtual cart
     // 
     // Shows all items in your cart
@@ -188,12 +229,13 @@ service SHOPPERSSHOP_VendingMachineService {
         get: "/vending/v1/pay/purchase"
       };
     }
-    // Initilize a vending transaction
+    // Initialize a vending transaction
     // 
     // Purchases all items in your cart
-    rpc PayPurchaseCart(google.protobuf.Empty) returns (google.protobuf.Empty) {
+    rpc PayPurchaseCart(PayPurchaseCartRequest) returns (PayPurchaseCartResponse) {
       option (google.api.http) = {
         post: "/vending/v1/pay/purchase"
+        body: "body"
       };
     }
     // Add an item via id to your cart
@@ -271,7 +313,7 @@ service SHOPPERSSHOP_VendingMachineService {
     // Get session or user by ID
     // 
     // Gets the session/user represented by the passed UUID
-    rpc SessionGetUserByUserId(SessionGetUserByUserIdRequest) returns (User) {
+    rpc SessionGetUserByUserId(SessionGetUserByUserIdRequest) returns (SessionGetUserByUserIdResponse) {
       option (google.api.http) = {
         get: "/vending/v1/session/{userId}"
       };
@@ -296,7 +338,7 @@ service SHOPPERSSHOP_VendingMachineService {
     // web-hook endpoint representing vended items by this session
     // 
     // The endpoint representing all of the items you've ever purchased - thanks!
-    rpc VendGetSessionVend(google.protobuf.Empty) returns (Vend) {
+    rpc VendGetSessionVend(google.protobuf.Empty) returns (VendGetSessionVendResponse) {
       option (google.api.http) = {
         get: "/vending/v1/vend"
       };
@@ -304,7 +346,7 @@ service SHOPPERSSHOP_VendingMachineService {
     // Web-hook and transaction query
     // 
     // This endpoint gives access to transactions created by {TransactionId, UserId}
-    rpc VendGetVendById(VendGetVendByIdRequest) returns (Vend) {
+    rpc VendGetVendById(VendGetVendByIdRequest) returns (VendGetVendByIdResponse) {
       option (google.api.http) = {
         get: "/vending/v1/vend/{id}"
       };
