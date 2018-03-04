@@ -8,9 +8,9 @@ It is generated from these files:
 	vending/vending.proto
 
 It has these top-level messages:
-	GetAllItemCategoriesResponse
-	SearchForItemsRequest
-	SearchForItemsResponse
+	InventorySearchAllItemCategoriesResponse
+	InventorySearchForItemsRequest
+	InventorySearchForItemsResponse
 	PayViewCartResponse
 	PayAddToCartRequest
 	PayUpdateOrderRequest
@@ -18,13 +18,14 @@ It has these top-level messages:
 	PayReOrderItemsRequest
 	PayDeleteOrderRequest
 	SessionGetCurrentSessionResponse
-	LoginUserRequest
-	LoginUserResponse
+	SessionLoginUserRequest
 	SessionCreateSessionResponse
-	GetUserByNameRequest
-	UpdateUserRequest
-	DeleteUserRequest
-	GetTransactionVendByIdRequest
+	SessionCreateUserRequest
+	SessionCreateUserResponse
+	SessionGetUserByUserIdRequest
+	SessionUpdateUserRequest
+	SessionDeleteUserRequest
+	VendGetVendByIdRequest
 	ApiResponse
 	Category
 	Inventory
@@ -82,51 +83,59 @@ var Vend_Vend_Statu_value = map[string]int32{
 func (x Vend_Vend_Statu) String() string {
 	return proto.EnumName(Vend_Vend_Statu_name, int32(x))
 }
-func (Vend_Vend_Statu) EnumDescriptor() ([]byte, []int) { return fileDescriptor0, []int{22, 0} }
+func (Vend_Vend_Statu) EnumDescriptor() ([]byte, []int) { return fileDescriptor0, []int{23, 0} }
 
-type GetAllItemCategoriesResponse struct {
-	Items []*GetAllItemCategoriesResponse_Item `protobuf:"bytes,1,rep,name=items" json:"items,omitempty"`
+type InventorySearchAllItemCategoriesResponse struct {
+	Items []*InventorySearchAllItemCategoriesResponse_Item `protobuf:"bytes,1,rep,name=items" json:"items,omitempty"`
 }
 
-func (m *GetAllItemCategoriesResponse) Reset()                    { *m = GetAllItemCategoriesResponse{} }
-func (m *GetAllItemCategoriesResponse) String() string            { return proto.CompactTextString(m) }
-func (*GetAllItemCategoriesResponse) ProtoMessage()               {}
-func (*GetAllItemCategoriesResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
+func (m *InventorySearchAllItemCategoriesResponse) Reset() {
+	*m = InventorySearchAllItemCategoriesResponse{}
+}
+func (m *InventorySearchAllItemCategoriesResponse) String() string { return proto.CompactTextString(m) }
+func (*InventorySearchAllItemCategoriesResponse) ProtoMessage()    {}
+func (*InventorySearchAllItemCategoriesResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor0, []int{0}
+}
 
-func (m *GetAllItemCategoriesResponse) GetItems() []*GetAllItemCategoriesResponse_Item {
+func (m *InventorySearchAllItemCategoriesResponse) GetItems() []*InventorySearchAllItemCategoriesResponse_Item {
 	if m != nil {
 		return m.Items
 	}
 	return nil
 }
 
-type GetAllItemCategoriesResponse_Item struct {
+type InventorySearchAllItemCategoriesResponse_Item struct {
 	Categories *Category `protobuf:"bytes,1,opt,name=categories" json:"categories,omitempty"`
 	Store      string    `protobuf:"bytes,2,opt,name=store" json:"store,omitempty"`
 }
 
-func (m *GetAllItemCategoriesResponse_Item) Reset()         { *m = GetAllItemCategoriesResponse_Item{} }
-func (m *GetAllItemCategoriesResponse_Item) String() string { return proto.CompactTextString(m) }
-func (*GetAllItemCategoriesResponse_Item) ProtoMessage()    {}
-func (*GetAllItemCategoriesResponse_Item) Descriptor() ([]byte, []int) {
+func (m *InventorySearchAllItemCategoriesResponse_Item) Reset() {
+	*m = InventorySearchAllItemCategoriesResponse_Item{}
+}
+func (m *InventorySearchAllItemCategoriesResponse_Item) String() string {
+	return proto.CompactTextString(m)
+}
+func (*InventorySearchAllItemCategoriesResponse_Item) ProtoMessage() {}
+func (*InventorySearchAllItemCategoriesResponse_Item) Descriptor() ([]byte, []int) {
 	return fileDescriptor0, []int{0, 0}
 }
 
-func (m *GetAllItemCategoriesResponse_Item) GetCategories() *Category {
+func (m *InventorySearchAllItemCategoriesResponse_Item) GetCategories() *Category {
 	if m != nil {
 		return m.Categories
 	}
 	return nil
 }
 
-func (m *GetAllItemCategoriesResponse_Item) GetStore() string {
+func (m *InventorySearchAllItemCategoriesResponse_Item) GetStore() string {
 	if m != nil {
 		return m.Store
 	}
 	return ""
 }
 
-type SearchForItemsRequest struct {
+type InventorySearchForItemsRequest struct {
 	// The category names - can pass many items
 	Category []string `protobuf:"bytes,1,rep,name=category" json:"category,omitempty"`
 	// The item names - can pass many items
@@ -135,42 +144,42 @@ type SearchForItemsRequest struct {
 	Price int32 `protobuf:"varint,3,opt,name=price" json:"price,omitempty"`
 }
 
-func (m *SearchForItemsRequest) Reset()                    { *m = SearchForItemsRequest{} }
-func (m *SearchForItemsRequest) String() string            { return proto.CompactTextString(m) }
-func (*SearchForItemsRequest) ProtoMessage()               {}
-func (*SearchForItemsRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
+func (m *InventorySearchForItemsRequest) Reset()                    { *m = InventorySearchForItemsRequest{} }
+func (m *InventorySearchForItemsRequest) String() string            { return proto.CompactTextString(m) }
+func (*InventorySearchForItemsRequest) ProtoMessage()               {}
+func (*InventorySearchForItemsRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
 
-func (m *SearchForItemsRequest) GetCategory() []string {
+func (m *InventorySearchForItemsRequest) GetCategory() []string {
 	if m != nil {
 		return m.Category
 	}
 	return nil
 }
 
-func (m *SearchForItemsRequest) GetName() []string {
+func (m *InventorySearchForItemsRequest) GetName() []string {
 	if m != nil {
 		return m.Name
 	}
 	return nil
 }
 
-func (m *SearchForItemsRequest) GetPrice() int32 {
+func (m *InventorySearchForItemsRequest) GetPrice() int32 {
 	if m != nil {
 		return m.Price
 	}
 	return 0
 }
 
-type SearchForItemsResponse struct {
+type InventorySearchForItemsResponse struct {
 	Items []*Inventory `protobuf:"bytes,1,rep,name=items" json:"items,omitempty"`
 }
 
-func (m *SearchForItemsResponse) Reset()                    { *m = SearchForItemsResponse{} }
-func (m *SearchForItemsResponse) String() string            { return proto.CompactTextString(m) }
-func (*SearchForItemsResponse) ProtoMessage()               {}
-func (*SearchForItemsResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
+func (m *InventorySearchForItemsResponse) Reset()                    { *m = InventorySearchForItemsResponse{} }
+func (m *InventorySearchForItemsResponse) String() string            { return proto.CompactTextString(m) }
+func (*InventorySearchForItemsResponse) ProtoMessage()               {}
+func (*InventorySearchForItemsResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
 
-func (m *SearchForItemsResponse) GetItems() []*Inventory {
+func (m *InventorySearchForItemsResponse) GetItems() []*Inventory {
 	if m != nil {
 		return m.Items
 	}
@@ -305,45 +314,28 @@ func (m *SessionGetCurrentSessionResponse) GetSessionId() string {
 	return ""
 }
 
-type LoginUserRequest struct {
+type SessionLoginUserRequest struct {
 	// The password for login in clear text
 	Password string `protobuf:"bytes,1,opt,name=password" json:"password,omitempty"`
 	// The user name for login
 	Username string `protobuf:"bytes,2,opt,name=username" json:"username,omitempty"`
 }
 
-func (m *LoginUserRequest) Reset()                    { *m = LoginUserRequest{} }
-func (m *LoginUserRequest) String() string            { return proto.CompactTextString(m) }
-func (*LoginUserRequest) ProtoMessage()               {}
-func (*LoginUserRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{10} }
+func (m *SessionLoginUserRequest) Reset()                    { *m = SessionLoginUserRequest{} }
+func (m *SessionLoginUserRequest) String() string            { return proto.CompactTextString(m) }
+func (*SessionLoginUserRequest) ProtoMessage()               {}
+func (*SessionLoginUserRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{10} }
 
-func (m *LoginUserRequest) GetPassword() string {
+func (m *SessionLoginUserRequest) GetPassword() string {
 	if m != nil {
 		return m.Password
 	}
 	return ""
 }
 
-func (m *LoginUserRequest) GetUsername() string {
+func (m *SessionLoginUserRequest) GetUsername() string {
 	if m != nil {
 		return m.Username
-	}
-	return ""
-}
-
-type LoginUserResponse struct {
-	// The logged-in user ID
-	UserId string `protobuf:"bytes,1,opt,name=user_id,json=userId" json:"user_id,omitempty"`
-}
-
-func (m *LoginUserResponse) Reset()                    { *m = LoginUserResponse{} }
-func (m *LoginUserResponse) String() string            { return proto.CompactTextString(m) }
-func (*LoginUserResponse) ProtoMessage()               {}
-func (*LoginUserResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{11} }
-
-func (m *LoginUserResponse) GetUserId() string {
-	if m != nil {
-		return m.UserId
 	}
 	return ""
 }
@@ -356,7 +348,7 @@ type SessionCreateSessionResponse struct {
 func (m *SessionCreateSessionResponse) Reset()                    { *m = SessionCreateSessionResponse{} }
 func (m *SessionCreateSessionResponse) String() string            { return proto.CompactTextString(m) }
 func (*SessionCreateSessionResponse) ProtoMessage()               {}
-func (*SessionCreateSessionResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{12} }
+func (*SessionCreateSessionResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{11} }
 
 func (m *SessionCreateSessionResponse) GetUserId() string {
 	if m != nil {
@@ -365,77 +357,111 @@ func (m *SessionCreateSessionResponse) GetUserId() string {
 	return ""
 }
 
-type GetUserByNameRequest struct {
-	// the user or session ID
-	UserId string `protobuf:"bytes,1,opt,name=userId" json:"userId,omitempty"`
-}
-
-func (m *GetUserByNameRequest) Reset()                    { *m = GetUserByNameRequest{} }
-func (m *GetUserByNameRequest) String() string            { return proto.CompactTextString(m) }
-func (*GetUserByNameRequest) ProtoMessage()               {}
-func (*GetUserByNameRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{13} }
-
-func (m *GetUserByNameRequest) GetUserId() string {
-	if m != nil {
-		return m.UserId
-	}
-	return ""
-}
-
-type UpdateUserRequest struct {
-	// Updated user object
+type SessionCreateUserRequest struct {
+	// The created user object
 	Body *User `protobuf:"bytes,1,opt,name=body" json:"body,omitempty"`
-	// the user or session ID
-	UserId string `protobuf:"bytes,2,opt,name=userId" json:"userId,omitempty"`
 }
 
-func (m *UpdateUserRequest) Reset()                    { *m = UpdateUserRequest{} }
-func (m *UpdateUserRequest) String() string            { return proto.CompactTextString(m) }
-func (*UpdateUserRequest) ProtoMessage()               {}
-func (*UpdateUserRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{14} }
+func (m *SessionCreateUserRequest) Reset()                    { *m = SessionCreateUserRequest{} }
+func (m *SessionCreateUserRequest) String() string            { return proto.CompactTextString(m) }
+func (*SessionCreateUserRequest) ProtoMessage()               {}
+func (*SessionCreateUserRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{12} }
 
-func (m *UpdateUserRequest) GetBody() *User {
+func (m *SessionCreateUserRequest) GetBody() *User {
 	if m != nil {
 		return m.Body
 	}
 	return nil
 }
 
-func (m *UpdateUserRequest) GetUserId() string {
+type SessionCreateUserResponse struct {
+	// The user ID
+	UserId string `protobuf:"bytes,1,opt,name=user_id,json=userId" json:"user_id,omitempty"`
+}
+
+func (m *SessionCreateUserResponse) Reset()                    { *m = SessionCreateUserResponse{} }
+func (m *SessionCreateUserResponse) String() string            { return proto.CompactTextString(m) }
+func (*SessionCreateUserResponse) ProtoMessage()               {}
+func (*SessionCreateUserResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{13} }
+
+func (m *SessionCreateUserResponse) GetUserId() string {
 	if m != nil {
 		return m.UserId
 	}
 	return ""
 }
 
-type DeleteUserRequest struct {
+type SessionGetUserByUserIdRequest struct {
+	// the user or session ID
+	UserId string `protobuf:"bytes,1,opt,name=userId" json:"userId,omitempty"`
+}
+
+func (m *SessionGetUserByUserIdRequest) Reset()                    { *m = SessionGetUserByUserIdRequest{} }
+func (m *SessionGetUserByUserIdRequest) String() string            { return proto.CompactTextString(m) }
+func (*SessionGetUserByUserIdRequest) ProtoMessage()               {}
+func (*SessionGetUserByUserIdRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{14} }
+
+func (m *SessionGetUserByUserIdRequest) GetUserId() string {
+	if m != nil {
+		return m.UserId
+	}
+	return ""
+}
+
+type SessionUpdateUserRequest struct {
+	// Updated user object
+	Body *User `protobuf:"bytes,1,opt,name=body" json:"body,omitempty"`
+	// the user or session ID
+	UserId string `protobuf:"bytes,2,opt,name=userId" json:"userId,omitempty"`
+}
+
+func (m *SessionUpdateUserRequest) Reset()                    { *m = SessionUpdateUserRequest{} }
+func (m *SessionUpdateUserRequest) String() string            { return proto.CompactTextString(m) }
+func (*SessionUpdateUserRequest) ProtoMessage()               {}
+func (*SessionUpdateUserRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{15} }
+
+func (m *SessionUpdateUserRequest) GetBody() *User {
+	if m != nil {
+		return m.Body
+	}
+	return nil
+}
+
+func (m *SessionUpdateUserRequest) GetUserId() string {
+	if m != nil {
+		return m.UserId
+	}
+	return ""
+}
+
+type SessionDeleteUserRequest struct {
 	// The name that needs to be deleted
 	UserId string `protobuf:"bytes,1,opt,name=userId" json:"userId,omitempty"`
 }
 
-func (m *DeleteUserRequest) Reset()                    { *m = DeleteUserRequest{} }
-func (m *DeleteUserRequest) String() string            { return proto.CompactTextString(m) }
-func (*DeleteUserRequest) ProtoMessage()               {}
-func (*DeleteUserRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{15} }
+func (m *SessionDeleteUserRequest) Reset()                    { *m = SessionDeleteUserRequest{} }
+func (m *SessionDeleteUserRequest) String() string            { return proto.CompactTextString(m) }
+func (*SessionDeleteUserRequest) ProtoMessage()               {}
+func (*SessionDeleteUserRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{16} }
 
-func (m *DeleteUserRequest) GetUserId() string {
+func (m *SessionDeleteUserRequest) GetUserId() string {
 	if m != nil {
 		return m.UserId
 	}
 	return ""
 }
 
-type GetTransactionVendByIdRequest struct {
+type VendGetVendByIdRequest struct {
 	// The id we want to query for transactions
 	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
 }
 
-func (m *GetTransactionVendByIdRequest) Reset()                    { *m = GetTransactionVendByIdRequest{} }
-func (m *GetTransactionVendByIdRequest) String() string            { return proto.CompactTextString(m) }
-func (*GetTransactionVendByIdRequest) ProtoMessage()               {}
-func (*GetTransactionVendByIdRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{16} }
+func (m *VendGetVendByIdRequest) Reset()                    { *m = VendGetVendByIdRequest{} }
+func (m *VendGetVendByIdRequest) String() string            { return proto.CompactTextString(m) }
+func (*VendGetVendByIdRequest) ProtoMessage()               {}
+func (*VendGetVendByIdRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{17} }
 
-func (m *GetTransactionVendByIdRequest) GetId() string {
+func (m *VendGetVendByIdRequest) GetId() string {
 	if m != nil {
 		return m.Id
 	}
@@ -451,7 +477,7 @@ type ApiResponse struct {
 func (m *ApiResponse) Reset()                    { *m = ApiResponse{} }
 func (m *ApiResponse) String() string            { return proto.CompactTextString(m) }
 func (*ApiResponse) ProtoMessage()               {}
-func (*ApiResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{17} }
+func (*ApiResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{18} }
 
 func (m *ApiResponse) GetCode() int32 {
 	if m != nil {
@@ -482,7 +508,7 @@ type Category struct {
 func (m *Category) Reset()                    { *m = Category{} }
 func (m *Category) String() string            { return proto.CompactTextString(m) }
 func (*Category) ProtoMessage()               {}
-func (*Category) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{18} }
+func (*Category) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{19} }
 
 func (m *Category) GetId() string {
 	if m != nil {
@@ -510,7 +536,7 @@ type Inventory struct {
 func (m *Inventory) Reset()                    { *m = Inventory{} }
 func (m *Inventory) String() string            { return proto.CompactTextString(m) }
 func (*Inventory) ProtoMessage()               {}
-func (*Inventory) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{19} }
+func (*Inventory) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{20} }
 
 func (m *Inventory) GetCost() int32 {
 	if m != nil {
@@ -562,7 +588,7 @@ type Tag struct {
 func (m *Tag) Reset()                    { *m = Tag{} }
 func (m *Tag) String() string            { return proto.CompactTextString(m) }
 func (*Tag) ProtoMessage()               {}
-func (*Tag) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{20} }
+func (*Tag) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{21} }
 
 func (m *Tag) GetId() string {
 	if m != nil {
@@ -593,7 +619,7 @@ type User struct {
 func (m *User) Reset()                    { *m = User{} }
 func (m *User) String() string            { return proto.CompactTextString(m) }
 func (*User) ProtoMessage()               {}
-func (*User) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{21} }
+func (*User) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{22} }
 
 func (m *User) GetEmail() string {
 	if m != nil {
@@ -661,7 +687,7 @@ type Vend struct {
 func (m *Vend) Reset()                    { *m = Vend{} }
 func (m *Vend) String() string            { return proto.CompactTextString(m) }
 func (*Vend) ProtoMessage()               {}
-func (*Vend) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{22} }
+func (*Vend) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{23} }
 
 func (m *Vend) GetId() string {
 	if m != nil {
@@ -701,7 +727,7 @@ type Vend_Item struct {
 func (m *Vend_Item) Reset()                    { *m = Vend_Item{} }
 func (m *Vend_Item) String() string            { return proto.CompactTextString(m) }
 func (*Vend_Item) ProtoMessage()               {}
-func (*Vend_Item) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{22, 0} }
+func (*Vend_Item) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{23, 0} }
 
 func (m *Vend_Item) GetCategory() *Category {
 	if m != nil {
@@ -725,10 +751,10 @@ func (m *Vend_Item) GetQuantity() int32 {
 }
 
 func init() {
-	proto.RegisterType((*GetAllItemCategoriesResponse)(nil), "shoppersshop_vendingmachine.GetAllItemCategoriesResponse")
-	proto.RegisterType((*GetAllItemCategoriesResponse_Item)(nil), "shoppersshop_vendingmachine.GetAllItemCategoriesResponse.Item")
-	proto.RegisterType((*SearchForItemsRequest)(nil), "shoppersshop_vendingmachine.SearchForItemsRequest")
-	proto.RegisterType((*SearchForItemsResponse)(nil), "shoppersshop_vendingmachine.SearchForItemsResponse")
+	proto.RegisterType((*InventorySearchAllItemCategoriesResponse)(nil), "shoppersshop_vendingmachine.InventorySearchAllItemCategoriesResponse")
+	proto.RegisterType((*InventorySearchAllItemCategoriesResponse_Item)(nil), "shoppersshop_vendingmachine.InventorySearchAllItemCategoriesResponse.Item")
+	proto.RegisterType((*InventorySearchForItemsRequest)(nil), "shoppersshop_vendingmachine.InventorySearchForItemsRequest")
+	proto.RegisterType((*InventorySearchForItemsResponse)(nil), "shoppersshop_vendingmachine.InventorySearchForItemsResponse")
 	proto.RegisterType((*PayViewCartResponse)(nil), "shoppersshop_vendingmachine.PayViewCartResponse")
 	proto.RegisterType((*PayAddToCartRequest)(nil), "shoppersshop_vendingmachine.PayAddToCartRequest")
 	proto.RegisterType((*PayUpdateOrderRequest)(nil), "shoppersshop_vendingmachine.PayUpdateOrderRequest")
@@ -736,13 +762,14 @@ func init() {
 	proto.RegisterType((*PayReOrderItemsRequest)(nil), "shoppersshop_vendingmachine.PayReOrderItemsRequest")
 	proto.RegisterType((*PayDeleteOrderRequest)(nil), "shoppersshop_vendingmachine.PayDeleteOrderRequest")
 	proto.RegisterType((*SessionGetCurrentSessionResponse)(nil), "shoppersshop_vendingmachine.SessionGetCurrentSessionResponse")
-	proto.RegisterType((*LoginUserRequest)(nil), "shoppersshop_vendingmachine.LoginUserRequest")
-	proto.RegisterType((*LoginUserResponse)(nil), "shoppersshop_vendingmachine.LoginUserResponse")
+	proto.RegisterType((*SessionLoginUserRequest)(nil), "shoppersshop_vendingmachine.SessionLoginUserRequest")
 	proto.RegisterType((*SessionCreateSessionResponse)(nil), "shoppersshop_vendingmachine.SessionCreateSessionResponse")
-	proto.RegisterType((*GetUserByNameRequest)(nil), "shoppersshop_vendingmachine.GetUserByNameRequest")
-	proto.RegisterType((*UpdateUserRequest)(nil), "shoppersshop_vendingmachine.UpdateUserRequest")
-	proto.RegisterType((*DeleteUserRequest)(nil), "shoppersshop_vendingmachine.DeleteUserRequest")
-	proto.RegisterType((*GetTransactionVendByIdRequest)(nil), "shoppersshop_vendingmachine.GetTransactionVendByIdRequest")
+	proto.RegisterType((*SessionCreateUserRequest)(nil), "shoppersshop_vendingmachine.SessionCreateUserRequest")
+	proto.RegisterType((*SessionCreateUserResponse)(nil), "shoppersshop_vendingmachine.SessionCreateUserResponse")
+	proto.RegisterType((*SessionGetUserByUserIdRequest)(nil), "shoppersshop_vendingmachine.SessionGetUserByUserIdRequest")
+	proto.RegisterType((*SessionUpdateUserRequest)(nil), "shoppersshop_vendingmachine.SessionUpdateUserRequest")
+	proto.RegisterType((*SessionDeleteUserRequest)(nil), "shoppersshop_vendingmachine.SessionDeleteUserRequest")
+	proto.RegisterType((*VendGetVendByIdRequest)(nil), "shoppersshop_vendingmachine.VendGetVendByIdRequest")
 	proto.RegisterType((*ApiResponse)(nil), "shoppersshop_vendingmachine.ApiResponse")
 	proto.RegisterType((*Category)(nil), "shoppersshop_vendingmachine.Category")
 	proto.RegisterType((*Inventory)(nil), "shoppersshop_vendingmachine.Inventory")
@@ -767,11 +794,11 @@ type SHOPPERSSHOP_VendingMachineServiceClient interface {
 	// Finds Pets by status
 	//
 	// Get all stores once can vend the inventory by name
-	GetAllItemCategories(ctx context.Context, in *google_protobuf.Empty, opts ...grpc.CallOption) (*GetAllItemCategoriesResponse, error)
+	InventorySearchAllItemCategories(ctx context.Context, in *google_protobuf.Empty, opts ...grpc.CallOption) (*InventorySearchAllItemCategoriesResponse, error)
 	// Finds inventory items by query params
 	//
 	// Search the inventory by query params
-	SearchForItems(ctx context.Context, in *SearchForItemsRequest, opts ...grpc.CallOption) (*SearchForItemsResponse, error)
+	InventorySearchForItems(ctx context.Context, in *InventorySearchForItemsRequest, opts ...grpc.CallOption) (*InventorySearchForItemsResponse, error)
 	// See all items in your virtual cart
 	//
 	// Shows all items in your cart
@@ -801,35 +828,39 @@ type SHOPPERSSHOP_VendingMachineServiceClient interface {
 	// Logs user into the system
 	//
 	// Logs in the current user into the vending machine
-	LoginUser(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*LoginUserResponse, error)
+	SessionLoginUser(ctx context.Context, in *SessionLoginUserRequest, opts ...grpc.CallOption) (*google_protobuf.Empty, error)
 	// Logs out current logged in user session
 	//
 	// Logs out the given user
-	LogoutUser(ctx context.Context, in *google_protobuf.Empty, opts ...grpc.CallOption) (*google_protobuf.Empty, error)
+	SessionLogoutUser(ctx context.Context, in *google_protobuf.Empty, opts ...grpc.CallOption) (*google_protobuf.Empty, error)
 	// Creates a user session
 	//
 	// Creates a session with the given user
 	SessionCreateSession(ctx context.Context, in *google_protobuf.Empty, opts ...grpc.CallOption) (*SessionCreateSessionResponse, error)
+	// Creates a new user
+	//
+	// Creates a user, returns the user id
+	SessionCreateUser(ctx context.Context, in *SessionCreateUserRequest, opts ...grpc.CallOption) (*SessionCreateUserResponse, error)
 	// Get session or user by ID
 	//
 	// Gets the session/user represented by the passed UUID
-	GetUserByName(ctx context.Context, in *GetUserByNameRequest, opts ...grpc.CallOption) (*User, error)
+	SessionGetUserByUserId(ctx context.Context, in *SessionGetUserByUserIdRequest, opts ...grpc.CallOption) (*User, error)
 	// Updated user
 	//
 	// This can only be done by the logged in user.
-	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*google_protobuf.Empty, error)
+	SessionUpdateUser(ctx context.Context, in *SessionUpdateUserRequest, opts ...grpc.CallOption) (*google_protobuf.Empty, error)
 	// Delete user
 	//
 	// Deletes current user.
-	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*google_protobuf.Empty, error)
+	SessionDeleteUser(ctx context.Context, in *SessionDeleteUserRequest, opts ...grpc.CallOption) (*google_protobuf.Empty, error)
 	// web-hook endpoint representing vended items by this session
 	//
 	// The endpoint representing all of the items you've ever purchased - thanks!
-	GetUserVen(ctx context.Context, in *google_protobuf.Empty, opts ...grpc.CallOption) (*Vend, error)
+	VendGetSessionVend(ctx context.Context, in *google_protobuf.Empty, opts ...grpc.CallOption) (*Vend, error)
 	// Web-hook and transaction query
 	//
 	// This endpoint gives access to transactions created by {TransactionId, UserId}
-	GetTransactionVendById(ctx context.Context, in *GetTransactionVendByIdRequest, opts ...grpc.CallOption) (*Vend, error)
+	VendGetVendById(ctx context.Context, in *VendGetVendByIdRequest, opts ...grpc.CallOption) (*Vend, error)
 }
 
 type sHOPPERSSHOP_VendingMachineServiceClient struct {
@@ -840,18 +871,18 @@ func NewSHOPPERSSHOP_VendingMachineServiceClient(cc *grpc.ClientConn) SHOPPERSSH
 	return &sHOPPERSSHOP_VendingMachineServiceClient{cc}
 }
 
-func (c *sHOPPERSSHOP_VendingMachineServiceClient) GetAllItemCategories(ctx context.Context, in *google_protobuf.Empty, opts ...grpc.CallOption) (*GetAllItemCategoriesResponse, error) {
-	out := new(GetAllItemCategoriesResponse)
-	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/GetAllItemCategories", in, out, c.cc, opts...)
+func (c *sHOPPERSSHOP_VendingMachineServiceClient) InventorySearchAllItemCategories(ctx context.Context, in *google_protobuf.Empty, opts ...grpc.CallOption) (*InventorySearchAllItemCategoriesResponse, error) {
+	out := new(InventorySearchAllItemCategoriesResponse)
+	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/InventorySearchAllItemCategories", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *sHOPPERSSHOP_VendingMachineServiceClient) SearchForItems(ctx context.Context, in *SearchForItemsRequest, opts ...grpc.CallOption) (*SearchForItemsResponse, error) {
-	out := new(SearchForItemsResponse)
-	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/SearchForItems", in, out, c.cc, opts...)
+func (c *sHOPPERSSHOP_VendingMachineServiceClient) InventorySearchForItems(ctx context.Context, in *InventorySearchForItemsRequest, opts ...grpc.CallOption) (*InventorySearchForItemsResponse, error) {
+	out := new(InventorySearchForItemsResponse)
+	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/InventorySearchForItems", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -921,18 +952,18 @@ func (c *sHOPPERSSHOP_VendingMachineServiceClient) SessionGetCurrentSession(ctx 
 	return out, nil
 }
 
-func (c *sHOPPERSSHOP_VendingMachineServiceClient) LoginUser(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*LoginUserResponse, error) {
-	out := new(LoginUserResponse)
-	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/LoginUser", in, out, c.cc, opts...)
+func (c *sHOPPERSSHOP_VendingMachineServiceClient) SessionLoginUser(ctx context.Context, in *SessionLoginUserRequest, opts ...grpc.CallOption) (*google_protobuf.Empty, error) {
+	out := new(google_protobuf.Empty)
+	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/SessionLoginUser", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *sHOPPERSSHOP_VendingMachineServiceClient) LogoutUser(ctx context.Context, in *google_protobuf.Empty, opts ...grpc.CallOption) (*google_protobuf.Empty, error) {
+func (c *sHOPPERSSHOP_VendingMachineServiceClient) SessionLogoutUser(ctx context.Context, in *google_protobuf.Empty, opts ...grpc.CallOption) (*google_protobuf.Empty, error) {
 	out := new(google_protobuf.Empty)
-	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/LogoutUser", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/SessionLogoutUser", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -948,45 +979,54 @@ func (c *sHOPPERSSHOP_VendingMachineServiceClient) SessionCreateSession(ctx cont
 	return out, nil
 }
 
-func (c *sHOPPERSSHOP_VendingMachineServiceClient) GetUserByName(ctx context.Context, in *GetUserByNameRequest, opts ...grpc.CallOption) (*User, error) {
+func (c *sHOPPERSSHOP_VendingMachineServiceClient) SessionCreateUser(ctx context.Context, in *SessionCreateUserRequest, opts ...grpc.CallOption) (*SessionCreateUserResponse, error) {
+	out := new(SessionCreateUserResponse)
+	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/SessionCreateUser", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sHOPPERSSHOP_VendingMachineServiceClient) SessionGetUserByUserId(ctx context.Context, in *SessionGetUserByUserIdRequest, opts ...grpc.CallOption) (*User, error) {
 	out := new(User)
-	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/GetUserByName", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/SessionGetUserByUserId", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *sHOPPERSSHOP_VendingMachineServiceClient) UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*google_protobuf.Empty, error) {
+func (c *sHOPPERSSHOP_VendingMachineServiceClient) SessionUpdateUser(ctx context.Context, in *SessionUpdateUserRequest, opts ...grpc.CallOption) (*google_protobuf.Empty, error) {
 	out := new(google_protobuf.Empty)
-	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/UpdateUser", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/SessionUpdateUser", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *sHOPPERSSHOP_VendingMachineServiceClient) DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*google_protobuf.Empty, error) {
+func (c *sHOPPERSSHOP_VendingMachineServiceClient) SessionDeleteUser(ctx context.Context, in *SessionDeleteUserRequest, opts ...grpc.CallOption) (*google_protobuf.Empty, error) {
 	out := new(google_protobuf.Empty)
-	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/DeleteUser", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/SessionDeleteUser", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *sHOPPERSSHOP_VendingMachineServiceClient) GetUserVen(ctx context.Context, in *google_protobuf.Empty, opts ...grpc.CallOption) (*Vend, error) {
+func (c *sHOPPERSSHOP_VendingMachineServiceClient) VendGetSessionVend(ctx context.Context, in *google_protobuf.Empty, opts ...grpc.CallOption) (*Vend, error) {
 	out := new(Vend)
-	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/GetUserVen", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/VendGetSessionVend", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *sHOPPERSSHOP_VendingMachineServiceClient) GetTransactionVendById(ctx context.Context, in *GetTransactionVendByIdRequest, opts ...grpc.CallOption) (*Vend, error) {
+func (c *sHOPPERSSHOP_VendingMachineServiceClient) VendGetVendById(ctx context.Context, in *VendGetVendByIdRequest, opts ...grpc.CallOption) (*Vend, error) {
 	out := new(Vend)
-	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/GetTransactionVendById", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/VendGetVendById", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -999,11 +1039,11 @@ type SHOPPERSSHOP_VendingMachineServiceServer interface {
 	// Finds Pets by status
 	//
 	// Get all stores once can vend the inventory by name
-	GetAllItemCategories(context.Context, *google_protobuf.Empty) (*GetAllItemCategoriesResponse, error)
+	InventorySearchAllItemCategories(context.Context, *google_protobuf.Empty) (*InventorySearchAllItemCategoriesResponse, error)
 	// Finds inventory items by query params
 	//
 	// Search the inventory by query params
-	SearchForItems(context.Context, *SearchForItemsRequest) (*SearchForItemsResponse, error)
+	InventorySearchForItems(context.Context, *InventorySearchForItemsRequest) (*InventorySearchForItemsResponse, error)
 	// See all items in your virtual cart
 	//
 	// Shows all items in your cart
@@ -1033,73 +1073,77 @@ type SHOPPERSSHOP_VendingMachineServiceServer interface {
 	// Logs user into the system
 	//
 	// Logs in the current user into the vending machine
-	LoginUser(context.Context, *LoginUserRequest) (*LoginUserResponse, error)
+	SessionLoginUser(context.Context, *SessionLoginUserRequest) (*google_protobuf.Empty, error)
 	// Logs out current logged in user session
 	//
 	// Logs out the given user
-	LogoutUser(context.Context, *google_protobuf.Empty) (*google_protobuf.Empty, error)
+	SessionLogoutUser(context.Context, *google_protobuf.Empty) (*google_protobuf.Empty, error)
 	// Creates a user session
 	//
 	// Creates a session with the given user
 	SessionCreateSession(context.Context, *google_protobuf.Empty) (*SessionCreateSessionResponse, error)
+	// Creates a new user
+	//
+	// Creates a user, returns the user id
+	SessionCreateUser(context.Context, *SessionCreateUserRequest) (*SessionCreateUserResponse, error)
 	// Get session or user by ID
 	//
 	// Gets the session/user represented by the passed UUID
-	GetUserByName(context.Context, *GetUserByNameRequest) (*User, error)
+	SessionGetUserByUserId(context.Context, *SessionGetUserByUserIdRequest) (*User, error)
 	// Updated user
 	//
 	// This can only be done by the logged in user.
-	UpdateUser(context.Context, *UpdateUserRequest) (*google_protobuf.Empty, error)
+	SessionUpdateUser(context.Context, *SessionUpdateUserRequest) (*google_protobuf.Empty, error)
 	// Delete user
 	//
 	// Deletes current user.
-	DeleteUser(context.Context, *DeleteUserRequest) (*google_protobuf.Empty, error)
+	SessionDeleteUser(context.Context, *SessionDeleteUserRequest) (*google_protobuf.Empty, error)
 	// web-hook endpoint representing vended items by this session
 	//
 	// The endpoint representing all of the items you've ever purchased - thanks!
-	GetUserVen(context.Context, *google_protobuf.Empty) (*Vend, error)
+	VendGetSessionVend(context.Context, *google_protobuf.Empty) (*Vend, error)
 	// Web-hook and transaction query
 	//
 	// This endpoint gives access to transactions created by {TransactionId, UserId}
-	GetTransactionVendById(context.Context, *GetTransactionVendByIdRequest) (*Vend, error)
+	VendGetVendById(context.Context, *VendGetVendByIdRequest) (*Vend, error)
 }
 
 func RegisterSHOPPERSSHOP_VendingMachineServiceServer(s *grpc.Server, srv SHOPPERSSHOP_VendingMachineServiceServer) {
 	s.RegisterService(&_SHOPPERSSHOP_VendingMachineService_serviceDesc, srv)
 }
 
-func _SHOPPERSSHOP_VendingMachineService_GetAllItemCategories_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SHOPPERSSHOP_VendingMachineService_InventorySearchAllItemCategories_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(google_protobuf.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).GetAllItemCategories(ctx, in)
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).InventorySearchAllItemCategories(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/GetAllItemCategories",
+		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/InventorySearchAllItemCategories",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).GetAllItemCategories(ctx, req.(*google_protobuf.Empty))
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).InventorySearchAllItemCategories(ctx, req.(*google_protobuf.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SHOPPERSSHOP_VendingMachineService_SearchForItems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SearchForItemsRequest)
+func _SHOPPERSSHOP_VendingMachineService_InventorySearchForItems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InventorySearchForItemsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).SearchForItems(ctx, in)
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).InventorySearchForItems(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/SearchForItems",
+		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/InventorySearchForItems",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).SearchForItems(ctx, req.(*SearchForItemsRequest))
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).InventorySearchForItems(ctx, req.(*InventorySearchForItemsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1230,38 +1274,38 @@ func _SHOPPERSSHOP_VendingMachineService_SessionGetCurrentSession_Handler(srv in
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SHOPPERSSHOP_VendingMachineService_LoginUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LoginUserRequest)
+func _SHOPPERSSHOP_VendingMachineService_SessionLoginUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SessionLoginUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).LoginUser(ctx, in)
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).SessionLoginUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/LoginUser",
+		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/SessionLoginUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).LoginUser(ctx, req.(*LoginUserRequest))
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).SessionLoginUser(ctx, req.(*SessionLoginUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SHOPPERSSHOP_VendingMachineService_LogoutUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SHOPPERSSHOP_VendingMachineService_SessionLogoutUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(google_protobuf.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).LogoutUser(ctx, in)
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).SessionLogoutUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/LogoutUser",
+		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/SessionLogoutUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).LogoutUser(ctx, req.(*google_protobuf.Empty))
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).SessionLogoutUser(ctx, req.(*google_protobuf.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1284,92 +1328,110 @@ func _SHOPPERSSHOP_VendingMachineService_SessionCreateSession_Handler(srv interf
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SHOPPERSSHOP_VendingMachineService_GetUserByName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserByNameRequest)
+func _SHOPPERSSHOP_VendingMachineService_SessionCreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SessionCreateUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).GetUserByName(ctx, in)
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).SessionCreateUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/GetUserByName",
+		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/SessionCreateUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).GetUserByName(ctx, req.(*GetUserByNameRequest))
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).SessionCreateUser(ctx, req.(*SessionCreateUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SHOPPERSSHOP_VendingMachineService_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateUserRequest)
+func _SHOPPERSSHOP_VendingMachineService_SessionGetUserByUserId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SessionGetUserByUserIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).UpdateUser(ctx, in)
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).SessionGetUserByUserId(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/UpdateUser",
+		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/SessionGetUserByUserId",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).UpdateUser(ctx, req.(*UpdateUserRequest))
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).SessionGetUserByUserId(ctx, req.(*SessionGetUserByUserIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SHOPPERSSHOP_VendingMachineService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteUserRequest)
+func _SHOPPERSSHOP_VendingMachineService_SessionUpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SessionUpdateUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).DeleteUser(ctx, in)
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).SessionUpdateUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/DeleteUser",
+		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/SessionUpdateUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).DeleteUser(ctx, req.(*DeleteUserRequest))
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).SessionUpdateUser(ctx, req.(*SessionUpdateUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SHOPPERSSHOP_VendingMachineService_GetUserVen_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SHOPPERSSHOP_VendingMachineService_SessionDeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SessionDeleteUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).SessionDeleteUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/SessionDeleteUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).SessionDeleteUser(ctx, req.(*SessionDeleteUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SHOPPERSSHOP_VendingMachineService_VendGetSessionVend_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(google_protobuf.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).GetUserVen(ctx, in)
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).VendGetSessionVend(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/GetUserVen",
+		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/VendGetSessionVend",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).GetUserVen(ctx, req.(*google_protobuf.Empty))
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).VendGetSessionVend(ctx, req.(*google_protobuf.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SHOPPERSSHOP_VendingMachineService_GetTransactionVendById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTransactionVendByIdRequest)
+func _SHOPPERSSHOP_VendingMachineService_VendGetVendById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VendGetVendByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).GetTransactionVendById(ctx, in)
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).VendGetVendById(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/GetTransactionVendById",
+		FullMethod: "/shoppersshop_vendingmachine.SHOPPERSSHOP_VendingMachineService/VendGetVendById",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).GetTransactionVendById(ctx, req.(*GetTransactionVendByIdRequest))
+		return srv.(SHOPPERSSHOP_VendingMachineServiceServer).VendGetVendById(ctx, req.(*VendGetVendByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1379,12 +1441,12 @@ var _SHOPPERSSHOP_VendingMachineService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*SHOPPERSSHOP_VendingMachineServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetAllItemCategories",
-			Handler:    _SHOPPERSSHOP_VendingMachineService_GetAllItemCategories_Handler,
+			MethodName: "InventorySearchAllItemCategories",
+			Handler:    _SHOPPERSSHOP_VendingMachineService_InventorySearchAllItemCategories_Handler,
 		},
 		{
-			MethodName: "SearchForItems",
-			Handler:    _SHOPPERSSHOP_VendingMachineService_SearchForItems_Handler,
+			MethodName: "InventorySearchForItems",
+			Handler:    _SHOPPERSSHOP_VendingMachineService_InventorySearchForItems_Handler,
 		},
 		{
 			MethodName: "PayViewCart",
@@ -1415,36 +1477,40 @@ var _SHOPPERSSHOP_VendingMachineService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _SHOPPERSSHOP_VendingMachineService_SessionGetCurrentSession_Handler,
 		},
 		{
-			MethodName: "LoginUser",
-			Handler:    _SHOPPERSSHOP_VendingMachineService_LoginUser_Handler,
+			MethodName: "SessionLoginUser",
+			Handler:    _SHOPPERSSHOP_VendingMachineService_SessionLoginUser_Handler,
 		},
 		{
-			MethodName: "LogoutUser",
-			Handler:    _SHOPPERSSHOP_VendingMachineService_LogoutUser_Handler,
+			MethodName: "SessionLogoutUser",
+			Handler:    _SHOPPERSSHOP_VendingMachineService_SessionLogoutUser_Handler,
 		},
 		{
 			MethodName: "SessionCreateSession",
 			Handler:    _SHOPPERSSHOP_VendingMachineService_SessionCreateSession_Handler,
 		},
 		{
-			MethodName: "GetUserByName",
-			Handler:    _SHOPPERSSHOP_VendingMachineService_GetUserByName_Handler,
+			MethodName: "SessionCreateUser",
+			Handler:    _SHOPPERSSHOP_VendingMachineService_SessionCreateUser_Handler,
 		},
 		{
-			MethodName: "UpdateUser",
-			Handler:    _SHOPPERSSHOP_VendingMachineService_UpdateUser_Handler,
+			MethodName: "SessionGetUserByUserId",
+			Handler:    _SHOPPERSSHOP_VendingMachineService_SessionGetUserByUserId_Handler,
 		},
 		{
-			MethodName: "DeleteUser",
-			Handler:    _SHOPPERSSHOP_VendingMachineService_DeleteUser_Handler,
+			MethodName: "SessionUpdateUser",
+			Handler:    _SHOPPERSSHOP_VendingMachineService_SessionUpdateUser_Handler,
 		},
 		{
-			MethodName: "GetUserVen",
-			Handler:    _SHOPPERSSHOP_VendingMachineService_GetUserVen_Handler,
+			MethodName: "SessionDeleteUser",
+			Handler:    _SHOPPERSSHOP_VendingMachineService_SessionDeleteUser_Handler,
 		},
 		{
-			MethodName: "GetTransactionVendById",
-			Handler:    _SHOPPERSSHOP_VendingMachineService_GetTransactionVendById_Handler,
+			MethodName: "VendGetSessionVend",
+			Handler:    _SHOPPERSSHOP_VendingMachineService_VendGetSessionVend_Handler,
+		},
+		{
+			MethodName: "VendGetVendById",
+			Handler:    _SHOPPERSSHOP_VendingMachineService_VendGetVendById_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -1454,95 +1520,98 @@ var _SHOPPERSSHOP_VendingMachineService_serviceDesc = grpc.ServiceDesc{
 func init() { proto.RegisterFile("vending/vending.proto", fileDescriptor0) }
 
 var fileDescriptor0 = []byte{
-	// 1439 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x57, 0x5d, 0x6f, 0x1b, 0x45,
-	0x17, 0x7e, 0xd7, 0x1f, 0x69, 0x7c, 0xf2, 0x12, 0x9c, 0x69, 0x92, 0xba, 0x9b, 0xa4, 0xb8, 0xab,
-	0x16, 0x42, 0x29, 0x36, 0x4d, 0xa9, 0x10, 0x15, 0x20, 0xb9, 0xb6, 0x09, 0x46, 0x21, 0xb1, 0xd6,
-	0x8e, 0xef, 0x90, 0x99, 0x78, 0xa7, 0xf6, 0xaa, 0xeb, 0xdd, 0xed, 0xce, 0xb8, 0x95, 0xa9, 0xaa,
-	0x02, 0x57, 0x48, 0x08, 0x6e, 0x90, 0xb8, 0x45, 0x70, 0xc7, 0x1f, 0xe1, 0x0f, 0xc0, 0x0d, 0xf7,
-	0xfc, 0x06, 0xae, 0xd1, 0xcc, 0xce, 0xda, 0xeb, 0x8f, 0xdd, 0x4d, 0x2a, 0x6e, 0x92, 0x3d, 0x33,
-	0x73, 0xce, 0xf3, 0x9c, 0x33, 0x33, 0x67, 0x1e, 0xc3, 0xd6, 0x13, 0x62, 0x1b, 0xa6, 0xdd, 0x2f,
-	0xcb, 0xff, 0x25, 0xd7, 0x73, 0x98, 0x83, 0x76, 0xe8, 0xc0, 0x71, 0x5d, 0xe2, 0x51, 0xfe, 0xbf,
-	0x2b, 0xe7, 0x86, 0xb8, 0x37, 0x30, 0x6d, 0xa2, 0xee, 0xf4, 0x1d, 0xa7, 0x6f, 0x91, 0xb2, 0x58,
-	0x7a, 0x36, 0x7a, 0x58, 0x26, 0x43, 0x97, 0x8d, 0x7d, 0x4f, 0x75, 0x57, 0x4e, 0x62, 0xd7, 0x2c,
-	0x63, 0xdb, 0x76, 0x18, 0x66, 0xa6, 0x63, 0x53, 0x7f, 0x56, 0xfb, 0x4b, 0x81, 0xdd, 0x43, 0xc2,
-	0x2a, 0x96, 0xd5, 0x60, 0x64, 0x58, 0xc5, 0x8c, 0xf4, 0x1d, 0xcf, 0x24, 0x54, 0x27, 0xd4, 0x75,
-	0x6c, 0x4a, 0x50, 0x1b, 0xb2, 0x26, 0x23, 0x43, 0x5a, 0x50, 0x8a, 0xe9, 0xfd, 0xb5, 0x83, 0x8f,
-	0x4a, 0x31, 0x44, 0x4a, 0x71, 0x91, 0x4a, 0x7c, 0x58, 0xf7, 0x83, 0xa9, 0x3d, 0xc8, 0x70, 0x13,
-	0xd5, 0x01, 0x7a, 0x93, 0x95, 0x05, 0xa5, 0xa8, 0xec, 0xaf, 0x1d, 0xdc, 0x8c, 0x85, 0x90, 0x81,
-	0xc7, 0x7a, 0xc8, 0x11, 0x6d, 0x42, 0x96, 0x32, 0xc7, 0x23, 0x85, 0x54, 0x51, 0xd9, 0xcf, 0xe9,
-	0xbe, 0xa1, 0x7d, 0x0e, 0x5b, 0x2d, 0x82, 0xbd, 0xde, 0xe0, 0x63, 0xc7, 0xe3, 0x68, 0x54, 0x27,
-	0x8f, 0x47, 0x84, 0x32, 0xa4, 0xc2, 0xaa, 0x74, 0x1e, 0x8b, 0xb4, 0x72, 0xfa, 0xc4, 0x46, 0x08,
-	0x32, 0x36, 0x1e, 0xf2, 0x48, 0x7c, 0x5c, 0x7c, 0xf3, 0xf0, 0xae, 0x67, 0xf6, 0x48, 0x21, 0x5d,
-	0x54, 0xf6, 0xb3, 0xba, 0x6f, 0x68, 0x1d, 0xd8, 0x9e, 0x0f, 0x2f, 0x6b, 0xf6, 0xc1, 0x6c, 0xcd,
-	0x5e, 0x8f, 0x4d, 0xa8, 0x61, 0x3f, 0x21, 0x36, 0xe3, 0x19, 0xf9, 0x4e, 0x5a, 0x0b, 0x2e, 0x37,
-	0xf1, 0xb8, 0x63, 0x92, 0xa7, 0x55, 0xec, 0xb1, 0xff, 0x28, 0xe8, 0x4d, 0x11, 0xb4, 0x62, 0x18,
-	0x6d, 0xc7, 0x8f, 0xea, 0x57, 0x62, 0x1d, 0x52, 0xa6, 0x21, 0xea, 0xae, 0xe8, 0x29, 0xd3, 0xd0,
-	0x06, 0xb0, 0xd5, 0xc4, 0xe3, 0x53, 0xd7, 0xc0, 0x8c, 0x9c, 0x78, 0x06, 0xf1, 0x82, 0x85, 0xf7,
-	0x20, 0x73, 0xe6, 0x18, 0x63, 0xb9, 0x45, 0xd7, 0x63, 0xc1, 0x3b, 0xc4, 0x36, 0x74, 0xb1, 0x1c,
-	0x15, 0xe0, 0x92, 0xc3, 0xc3, 0x34, 0x0c, 0xb9, 0x35, 0x81, 0xa9, 0xdd, 0x83, 0xed, 0x79, 0x24,
-	0x99, 0xe8, 0x0e, 0xe4, 0x7a, 0xd8, 0xb2, 0xba, 0x67, 0xb8, 0xf7, 0x48, 0xe0, 0x89, 0xed, 0xb1,
-	0xac, 0x07, 0xb8, 0xf7, 0x48, 0x3b, 0x10, 0x6e, 0xba, 0xef, 0x32, 0xb3, 0xa9, 0x21, 0x28, 0x65,
-	0x16, 0xea, 0x8e, 0x48, 0xaa, 0x46, 0x2c, 0x32, 0x97, 0x54, 0xb4, 0x4b, 0x05, 0x8a, 0x2d, 0x42,
-	0xa9, 0xe9, 0xd8, 0x87, 0x84, 0x55, 0x47, 0x9e, 0x47, 0x6c, 0x26, 0x07, 0x26, 0x3c, 0xf7, 0x00,
-	0xa8, 0x3f, 0xd4, 0x35, 0x83, 0x00, 0x39, 0x39, 0xd2, 0x30, 0xb4, 0x4f, 0x21, 0x7f, 0xe4, 0xf4,
-	0x4d, 0xfb, 0x94, 0x4e, 0x01, 0x55, 0x58, 0x75, 0x31, 0xa5, 0x4f, 0x1d, 0x2f, 0x70, 0x98, 0xd8,
-	0x7c, 0x6e, 0x44, 0x89, 0x27, 0x0f, 0x9f, 0x98, 0x0b, 0x6c, 0xed, 0x36, 0x6c, 0x84, 0x62, 0x49,
-	0xfc, 0x2b, 0x70, 0x89, 0x2f, 0x98, 0x82, 0xaf, 0x70, 0xb3, 0x61, 0x68, 0xef, 0xc1, 0xae, 0xe4,
-	0x5a, 0xf5, 0x08, 0x66, 0x64, 0x9e, 0x78, 0xa4, 0x63, 0x09, 0x36, 0x0f, 0x09, 0xe3, 0x20, 0x0f,
-	0xc6, 0xc7, 0x78, 0x48, 0x02, 0xda, 0xdb, 0x20, 0x57, 0xcc, 0xad, 0x3f, 0x83, 0x0d, 0x7f, 0x03,
-	0xc3, 0x39, 0x5e, 0xe4, 0xa4, 0x08, 0x3f, 0xff, 0xa4, 0x4c, 0x31, 0x52, 0x33, 0x18, 0x6f, 0xc1,
-	0x86, 0xbf, 0x73, 0x61, 0x8c, 0x28, 0x42, 0x65, 0xd8, 0x3b, 0x24, 0xac, 0xed, 0x61, 0x9b, 0xe2,
-	0x1e, 0x6f, 0x73, 0xfc, 0x28, 0x3e, 0x18, 0x37, 0x8c, 0xc5, 0xf3, 0x9e, 0x13, 0xe7, 0xfd, 0x04,
-	0xd6, 0x2a, 0xae, 0x39, 0xa9, 0x0c, 0x82, 0x4c, 0xcf, 0x31, 0x88, 0x58, 0x90, 0xd5, 0xc5, 0x37,
-	0x3f, 0x24, 0x43, 0x42, 0x29, 0xee, 0x07, 0xdb, 0x12, 0x98, 0x7c, 0x35, 0x1b, 0xbb, 0x7e, 0x57,
-	0xc8, 0xe9, 0xe2, 0x5b, 0x2b, 0xc1, 0x6a, 0xd0, 0xa1, 0xe6, 0xc1, 0x42, 0xad, 0x45, 0x09, 0x5a,
-	0x8b, 0xf6, 0x9b, 0x02, 0xb9, 0xc9, 0x65, 0xf5, 0xf1, 0x29, 0x9b, 0xe2, 0x4f, 0x28, 0xa7, 0x16,
-	0xa2, 0xa4, 0xa7, 0x51, 0xd0, 0x2e, 0xe4, 0xdc, 0x81, 0xc3, 0x9c, 0x53, 0xcf, 0xa2, 0x85, 0x8c,
-	0xe8, 0x5c, 0xd3, 0x01, 0xf4, 0x2e, 0x64, 0x18, 0xee, 0xd3, 0x42, 0x56, 0x34, 0x8e, 0x62, 0xec,
-	0x8e, 0xb4, 0x71, 0x5f, 0x17, 0xab, 0x51, 0x1e, 0xd2, 0x23, 0xcf, 0x2a, 0xac, 0x08, 0x18, 0xfe,
-	0xa9, 0xbd, 0x09, 0xe9, 0x36, 0xee, 0x9f, 0x2b, 0xad, 0x3f, 0x15, 0xc8, 0xf0, 0x0d, 0xe3, 0xad,
-	0x93, 0x0c, 0xb1, 0x69, 0xc9, 0xf5, 0xbe, 0xc1, 0xf9, 0x3e, 0x34, 0x3d, 0xca, 0x8e, 0xa7, 0x7e,
-	0xd3, 0x01, 0x09, 0x90, 0x9e, 0x00, 0xa8, 0xb0, 0x6a, 0x61, 0xb9, 0x38, 0xe3, 0xdf, 0x8c, 0xc0,
-	0x9e, 0xb9, 0x51, 0xd9, 0xb9, 0x1b, 0xc5, 0xdb, 0xf6, 0xc0, 0xb1, 0x89, 0xcc, 0xc1, 0x37, 0xd0,
-	0x35, 0x00, 0x7e, 0x5a, 0x5a, 0x0c, 0xb3, 0x11, 0x2d, 0x5c, 0x12, 0x95, 0x0e, 0x8d, 0xcc, 0xdc,
-	0xc3, 0xd5, 0xb9, 0x7b, 0xf8, 0x7b, 0x1a, 0x32, 0xfc, 0x48, 0x2d, 0xd4, 0x60, 0xd2, 0x9c, 0x53,
-	0xe7, 0x68, 0xce, 0x3c, 0x42, 0xf8, 0x35, 0x44, 0x35, 0x58, 0xa1, 0x3e, 0x1d, 0x9e, 0xf4, 0xfa,
-	0xc1, 0xed, 0x64, 0x77, 0xfe, 0xa7, 0x2b, 0x18, 0xeb, 0xd2, 0x97, 0xa7, 0xcb, 0x1c, 0x86, 0x2d,
-	0x51, 0xa3, 0xac, 0xee, 0x1b, 0xea, 0x2f, 0x8a, 0x7c, 0x6a, 0x2b, 0x33, 0x8f, 0xde, 0x05, 0x1e,
-	0xda, 0xe9, 0xdb, 0x78, 0x1f, 0x32, 0x9c, 0xb0, 0xd8, 0xb1, 0xf3, 0xbf, 0x40, 0xc2, 0x87, 0x97,
-	0xf5, 0xf1, 0x08, 0xdb, 0xcc, 0x64, 0x63, 0xf9, 0x8c, 0x4e, 0x6c, 0xcd, 0x05, 0x98, 0xe6, 0x83,
-	0xb6, 0x60, 0xa3, 0x53, 0x3f, 0xae, 0x75, 0x5b, 0xed, 0x4a, 0xfb, 0xb4, 0xdb, 0x3c, 0xaa, 0x54,
-	0xeb, 0xb5, 0xfc, 0xff, 0xd0, 0x15, 0xb8, 0x1c, 0x1a, 0xae, 0x34, 0x9b, 0xfa, 0x49, 0xa7, 0x5e,
-	0xcb, 0x2b, 0xa8, 0x00, 0x9b, 0xa1, 0x89, 0x5a, 0xfd, 0xa8, 0xd1, 0xa9, 0xeb, 0xf5, 0x5a, 0x3e,
-	0x35, 0x37, 0x53, 0xad, 0x1c, 0x57, 0xeb, 0x47, 0x47, 0xf5, 0x5a, 0x3e, 0x7d, 0xf0, 0xcf, 0x06,
-	0x68, 0xad, 0x4f, 0x4e, 0x9a, 0xcd, 0xba, 0xde, 0xe2, 0xff, 0xbb, 0x1d, 0x9f, 0xfd, 0x67, 0x3e,
-	0xfb, 0x16, 0xf1, 0x9e, 0x98, 0x3d, 0x82, 0xbe, 0x55, 0x44, 0x47, 0x5c, 0xd0, 0x34, 0x68, 0xbb,
-	0xe4, 0xab, 0xaa, 0x52, 0x20, 0xb9, 0x4a, 0x75, 0x2e, 0xb9, 0xd4, 0xf7, 0x5f, 0x5a, 0x1e, 0x69,
-	0x7b, 0xdf, 0xfc, 0xf1, 0xf7, 0x8f, 0xa9, 0x2b, 0x68, 0xab, 0x3c, 0x51, 0x80, 0x77, 0xca, 0xe6,
-	0xa4, 0x35, 0xfc, 0xac, 0xc0, 0xfa, 0xac, 0xdc, 0x40, 0x07, 0xb1, 0x60, 0x4b, 0xa5, 0x8f, 0x7a,
-	0xf7, 0x42, 0x3e, 0x92, 0xda, 0x0d, 0x41, 0xed, 0x1a, 0xda, 0x5d, 0x4a, 0xad, 0x4c, 0x85, 0x17,
-	0x1a, 0xc3, 0x5a, 0x48, 0xb7, 0x44, 0x96, 0xe8, 0x9d, 0x58, 0x06, 0x4b, 0x94, 0x8f, 0x56, 0x14,
-	0xf0, 0x2a, 0x2a, 0x84, 0xe1, 0x5d, 0x3c, 0x2e, 0xbb, 0x23, 0xaf, 0x37, 0xc0, 0x94, 0xa0, 0x1e,
-	0xbc, 0xda, 0xc4, 0xe3, 0xa6, 0x34, 0x63, 0xe1, 0x23, 0xc6, 0x03, 0x10, 0x2d, 0x1a, 0xe4, 0x05,
-	0xfc, 0x3f, 0x2c, 0xa1, 0x50, 0x62, 0x22, 0xf3, 0x6a, 0x2b, 0x12, 0xfb, 0xa6, 0xc0, 0x7e, 0x4d,
-	0xdd, 0x8b, 0xc2, 0x2e, 0x3f, 0x33, 0x8d, 0xe7, 0xe8, 0x57, 0x05, 0xd6, 0x67, 0x35, 0x53, 0xc2,
-	0x11, 0x58, 0x2a, 0xe5, 0x12, 0x8e, 0xc0, 0x72, 0x51, 0xa6, 0xbd, 0x21, 0x28, 0x5e, 0x57, 0xaf,
-	0xce, 0x53, 0x7c, 0x26, 0x25, 0xd3, 0xf3, 0xfb, 0xfe, 0x3b, 0xfe, 0xb5, 0x22, 0xf6, 0x22, 0xac,
-	0xd0, 0x50, 0x22, 0xe2, 0x12, 0x3d, 0x17, 0x59, 0xac, 0xeb, 0x82, 0xc9, 0x8e, 0x16, 0xcd, 0x04,
-	0xbd, 0x10, 0x75, 0x0a, 0x09, 0xbe, 0xe4, 0x3a, 0x2d, 0xaa, 0xc3, 0x24, 0x02, 0xb7, 0x62, 0x08,
-	0xfc, 0xa0, 0x40, 0x21, 0x4a, 0x3f, 0x46, 0x9e, 0xcc, 0x0f, 0x13, 0xae, 0x66, 0xbc, 0x1c, 0xd5,
-	0x76, 0x04, 0xad, 0x2d, 0x74, 0x39, 0x4c, 0x4b, 0xca, 0x51, 0xf4, 0xbd, 0x02, 0xb9, 0x89, 0x82,
-	0x44, 0x6f, 0xc7, 0x22, 0xcd, 0xab, 0x56, 0xb5, 0x74, 0xde, 0xe5, 0x92, 0x89, 0x2c, 0x10, 0xba,
-	0xba, 0x84, 0x49, 0xd9, 0xe2, 0xcb, 0xd1, 0x17, 0x00, 0x47, 0x4e, 0xdf, 0x19, 0x09, 0xb1, 0x79,
-	0xe1, 0xbb, 0xaa, 0x09, 0x80, 0x5d, 0x4d, 0x8d, 0x00, 0x70, 0x46, 0x0c, 0x7d, 0xa7, 0xc0, 0xe6,
-	0x32, 0x15, 0xfc, 0x92, 0xad, 0x3b, 0x4e, 0x50, 0x2f, 0xef, 0x1d, 0x01, 0x1f, 0x2e, 0x1e, 0x38,
-	0x9b, 0x57, 0x66, 0xa4, 0x35, 0xba, 0x93, 0xf4, 0x52, 0x2c, 0xc8, 0x70, 0x35, 0x59, 0x4b, 0x2f,
-	0xef, 0xd4, 0x01, 0x93, 0x67, 0xbe, 0x4a, 0x7e, 0x8e, 0xbe, 0x52, 0x00, 0xa6, 0xc2, 0x1d, 0xc5,
-	0xef, 0xef, 0x82, 0xc2, 0x8f, 0xdc, 0x96, 0x5b, 0x02, 0xfc, 0x86, 0x1a, 0x0b, 0x2e, 0xdb, 0xc4,
-	0x97, 0x00, 0x53, 0x59, 0x9f, 0xc0, 0x60, 0x41, 0xff, 0x47, 0x32, 0x90, 0xe9, 0xdf, 0x8a, 0x4f,
-	0x1f, 0x03, 0xc8, 0xfa, 0x76, 0x48, 0xf4, 0x79, 0x48, 0xfe, 0x8d, 0xab, 0x15, 0x04, 0x1c, 0x42,
-	0xf9, 0x30, 0x1c, 0xff, 0x44, 0x3f, 0x29, 0xb0, 0xbd, 0xfc, 0x97, 0x08, 0xba, 0x9f, 0xb4, 0xf1,
-	0xd1, 0x3f, 0x5f, 0xce, 0xc3, 0x69, 0xa9, 0x8c, 0xe0, 0x9f, 0xe2, 0x0d, 0x39, 0x5b, 0x11, 0x59,
-	0xde, 0xfd, 0x37, 0x00, 0x00, 0xff, 0xff, 0x7c, 0x8c, 0x83, 0x52, 0x67, 0x12, 0x00, 0x00,
+	// 1477 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x58, 0xcd, 0x6e, 0xdb, 0xc6,
+	0x16, 0xbe, 0x94, 0x64, 0xc7, 0x3a, 0xbe, 0x48, 0x9c, 0x71, 0x6c, 0x33, 0xb4, 0x9d, 0x28, 0x44,
+	0x92, 0xeb, 0x1b, 0x5c, 0x48, 0x37, 0x4a, 0xd2, 0xa0, 0x69, 0xba, 0x50, 0x24, 0x35, 0x75, 0xe1,
+	0xc6, 0x2a, 0x65, 0x7b, 0xab, 0x8e, 0xa5, 0x89, 0x44, 0x84, 0x22, 0x19, 0xce, 0x28, 0x01, 0x11,
+	0x04, 0x41, 0xdb, 0x4d, 0x81, 0x02, 0xdd, 0x74, 0x5d, 0xa0, 0xed, 0xae, 0x7d, 0x84, 0x3e, 0x40,
+	0x5f, 0xa0, 0x7d, 0x84, 0xbe, 0x40, 0xf7, 0x5d, 0x14, 0x33, 0x1c, 0xfe, 0x88, 0x12, 0x25, 0xb9,
+	0xcd, 0xc6, 0xe2, 0x99, 0x99, 0x73, 0xbe, 0xef, 0x9c, 0xf9, 0xfb, 0xc6, 0xb0, 0xf1, 0x82, 0xd8,
+	0x3d, 0xd3, 0xee, 0x57, 0xe4, 0x6f, 0xd9, 0xf5, 0x1c, 0xe6, 0xa0, 0x6d, 0x3a, 0x70, 0x5c, 0x97,
+	0x78, 0x94, 0xff, 0x76, 0x64, 0xdf, 0x10, 0x77, 0x07, 0xa6, 0x4d, 0xb4, 0xed, 0xbe, 0xe3, 0xf4,
+	0x2d, 0x52, 0x11, 0x43, 0x4f, 0x47, 0x4f, 0x2b, 0x64, 0xe8, 0x32, 0x3f, 0xf0, 0xd4, 0x76, 0x64,
+	0x27, 0x76, 0xcd, 0x0a, 0xb6, 0x6d, 0x87, 0x61, 0x66, 0x3a, 0x36, 0x0d, 0x7a, 0xf5, 0x3f, 0x14,
+	0xd8, 0xdb, 0xb7, 0x5f, 0x10, 0x9b, 0x39, 0x9e, 0xdf, 0x26, 0xd8, 0xeb, 0x0e, 0x6a, 0x96, 0xb5,
+	0xcf, 0xc8, 0xb0, 0x8e, 0x19, 0xe9, 0x3b, 0x9e, 0x49, 0xa8, 0x41, 0xa8, 0xeb, 0xd8, 0x94, 0xa0,
+	0x4f, 0x61, 0xc9, 0x64, 0x64, 0x48, 0x55, 0xa5, 0x94, 0xdf, 0x5b, 0xad, 0x7e, 0x54, 0x9e, 0x41,
+	0xaa, 0xbc, 0x68, 0xd4, 0x32, 0x6f, 0x36, 0x82, 0xc0, 0x5a, 0x17, 0x0a, 0xdc, 0x44, 0x4d, 0x80,
+	0x6e, 0x34, 0x52, 0x55, 0x4a, 0xca, 0xde, 0x6a, 0xf5, 0xc6, 0x4c, 0x38, 0x19, 0xd8, 0x37, 0x12,
+	0x8e, 0xe8, 0x12, 0x2c, 0x51, 0xe6, 0x78, 0x44, 0xcd, 0x95, 0x94, 0xbd, 0xa2, 0x11, 0x18, 0xfa,
+	0x53, 0xb8, 0x92, 0x22, 0xf7, 0x81, 0xe3, 0x71, 0x58, 0x6a, 0x90, 0xe7, 0x23, 0x42, 0x19, 0xd2,
+	0x60, 0x45, 0x46, 0xf1, 0x45, 0xae, 0x45, 0x23, 0xb2, 0x11, 0x82, 0x82, 0x8d, 0x87, 0x3c, 0x24,
+	0x6f, 0x17, 0xdf, 0x1c, 0xc7, 0xf5, 0xcc, 0x2e, 0x51, 0xf3, 0x25, 0x65, 0x6f, 0xc9, 0x08, 0x0c,
+	0xbd, 0x03, 0x57, 0x33, 0x71, 0x64, 0x45, 0x1f, 0x8e, 0x57, 0xf4, 0xe6, 0x62, 0x15, 0x95, 0xd5,
+	0xd2, 0xdb, 0xb0, 0xde, 0xc2, 0xfe, 0x89, 0x49, 0x5e, 0xd6, 0xb1, 0xc7, 0xde, 0x52, 0xd0, 0x1b,
+	0x22, 0x68, 0xad, 0xd7, 0x3b, 0x72, 0x82, 0xa8, 0x41, 0x49, 0xce, 0x43, 0xce, 0xec, 0x89, 0x99,
+	0x50, 0x8c, 0x9c, 0xd9, 0xd3, 0x07, 0xb0, 0xd1, 0xc2, 0xfe, 0xb1, 0xdb, 0xc3, 0x8c, 0x1c, 0x7a,
+	0x3d, 0xe2, 0x85, 0x03, 0xef, 0x41, 0xe1, 0xd4, 0xe9, 0xf9, 0x72, 0xd2, 0xae, 0xcd, 0x04, 0x3f,
+	0x21, 0x76, 0xcf, 0x10, 0xc3, 0x91, 0x0a, 0xe7, 0x1c, 0x1e, 0x66, 0xbf, 0x27, 0x27, 0x2b, 0x34,
+	0xf5, 0x7b, 0xb0, 0x99, 0x46, 0x92, 0x89, 0x6e, 0x43, 0xb1, 0x8b, 0x2d, 0xab, 0x73, 0x8a, 0xbb,
+	0xcf, 0x04, 0x9e, 0x98, 0x27, 0xcb, 0x7a, 0x84, 0xbb, 0xcf, 0xf4, 0xaa, 0x70, 0x33, 0x02, 0x97,
+	0xb1, 0xd9, 0x4d, 0x40, 0x29, 0xe3, 0x50, 0xb7, 0x45, 0x52, 0x0d, 0x62, 0x91, 0x54, 0x52, 0xd9,
+	0x2e, 0x35, 0x28, 0xb5, 0x09, 0xa5, 0xa6, 0x63, 0x3f, 0x26, 0xac, 0x3e, 0xf2, 0x3c, 0x62, 0x33,
+	0xd9, 0x10, 0xf1, 0xdc, 0x05, 0xa0, 0x41, 0x53, 0xc7, 0x0c, 0x03, 0x14, 0x65, 0xcb, 0x7e, 0x4f,
+	0xff, 0x04, 0xb6, 0xa4, 0xc7, 0x81, 0xd3, 0x37, 0xed, 0x63, 0x1a, 0xe3, 0x6a, 0xb0, 0xe2, 0x62,
+	0x4a, 0x5f, 0x3a, 0x5e, 0xe8, 0x17, 0xd9, 0xbc, 0x6f, 0x44, 0x89, 0x27, 0x17, 0xa3, 0xe8, 0x0b,
+	0x6d, 0xfd, 0x3e, 0xec, 0xc8, 0x90, 0x75, 0x8f, 0x60, 0x46, 0xd2, 0x8c, 0xb6, 0xe0, 0x1c, 0x1f,
+	0x1b, 0xd3, 0x59, 0xe6, 0xa6, 0xe0, 0xa2, 0x8e, 0x39, 0x26, 0xc9, 0x9c, 0x65, 0x66, 0x85, 0x9f,
+	0x18, 0xae, 0xdf, 0x85, 0xcb, 0x53, 0x42, 0xce, 0x23, 0x72, 0x1f, 0x76, 0xe3, 0xba, 0x72, 0x97,
+	0x47, 0xfe, 0xb1, 0xe8, 0x09, 0xd9, 0x6c, 0x82, 0x1c, 0x9a, 0x72, 0x34, 0xa3, 0x0c, 0x82, 0x25,
+	0xf3, 0xcf, 0x33, 0x48, 0x40, 0xe5, 0xc6, 0xa0, 0xaa, 0x11, 0x54, 0xb0, 0x64, 0x92, 0x50, 0x59,
+	0xf4, 0xf6, 0x60, 0x93, 0xaf, 0xfa, 0xc7, 0x84, 0xf1, 0x9f, 0x47, 0x7e, 0x9c, 0x50, 0xbc, 0xc3,
+	0x8a, 0x62, 0x87, 0x1d, 0xc2, 0x6a, 0xcd, 0x35, 0xa3, 0x4a, 0x21, 0x28, 0x74, 0x9d, 0x1e, 0x11,
+	0x03, 0x96, 0x0c, 0xf1, 0xcd, 0x97, 0xe5, 0x90, 0x50, 0x8a, 0xfb, 0xe1, 0x0a, 0x08, 0x4d, 0x3e,
+	0x9a, 0xf9, 0x6e, 0x70, 0x20, 0x15, 0x0d, 0xf1, 0xad, 0x97, 0x61, 0x25, 0x3c, 0x25, 0xd3, 0x60,
+	0x89, 0x53, 0x4d, 0x09, 0x4f, 0x35, 0xfd, 0x47, 0x05, 0x8a, 0xd1, 0xf1, 0x10, 0xe0, 0x53, 0x16,
+	0xe3, 0x47, 0x94, 0x73, 0x13, 0x51, 0xf2, 0x71, 0x14, 0xb4, 0x03, 0x45, 0x77, 0xe0, 0x30, 0xe7,
+	0xd8, 0xb3, 0xa8, 0x5a, 0x10, 0x87, 0x66, 0xdc, 0x80, 0xee, 0x42, 0x81, 0xe1, 0x3e, 0x55, 0x97,
+	0xc4, 0x51, 0x55, 0x9a, 0x39, 0x23, 0x47, 0xb8, 0x6f, 0x88, 0xd1, 0x68, 0x0d, 0xf2, 0x23, 0xcf,
+	0x52, 0x97, 0x05, 0x0c, 0xff, 0xd4, 0xff, 0x0b, 0xf9, 0x23, 0xdc, 0x5f, 0x28, 0xad, 0xdf, 0x14,
+	0x28, 0xf0, 0x99, 0xe2, 0xa7, 0x36, 0x19, 0x62, 0xd3, 0x92, 0xe3, 0x03, 0x83, 0xf3, 0x7d, 0x6a,
+	0x7a, 0x94, 0x3d, 0x89, 0xfd, 0xe2, 0x06, 0x09, 0x90, 0x8f, 0x00, 0x34, 0x58, 0xb1, 0xb0, 0x1c,
+	0x5c, 0x08, 0x36, 0x61, 0x68, 0x8f, 0x6d, 0xde, 0xa5, 0xd4, 0xe6, 0xe5, 0x37, 0xc6, 0xc0, 0xb1,
+	0x89, 0xcc, 0x21, 0x30, 0xd0, 0x15, 0x00, 0xbe, 0x4c, 0xda, 0x0c, 0xb3, 0x11, 0x55, 0xcf, 0x89,
+	0x4a, 0x27, 0x5a, 0xc6, 0xb6, 0xfc, 0x4a, 0x6a, 0xcb, 0xff, 0x92, 0x87, 0x02, 0x5f, 0x52, 0x13,
+	0x35, 0x88, 0xae, 0x83, 0xdc, 0x02, 0xd7, 0x01, 0x8f, 0x90, 0xbc, 0x91, 0x51, 0x03, 0x96, 0x69,
+	0x40, 0x87, 0x27, 0x7d, 0xbe, 0xfa, 0xbf, 0xf9, 0xee, 0xfc, 0x4f, 0x47, 0x30, 0x36, 0xa4, 0x2f,
+	0x4f, 0x97, 0x39, 0x0c, 0x5b, 0xa2, 0x46, 0x4b, 0x46, 0x60, 0x68, 0xdf, 0x2b, 0xf2, 0xba, 0xaf,
+	0x8d, 0xdd, 0xb7, 0x67, 0xb8, 0xec, 0xe3, 0x6b, 0xf9, 0x01, 0x14, 0x38, 0x61, 0x31, 0x63, 0x8b,
+	0xdf, 0x79, 0xc2, 0x87, 0x97, 0xf5, 0xf9, 0x08, 0xdb, 0xcc, 0x64, 0xbe, 0xbc, 0xc1, 0x23, 0x5b,
+	0x77, 0x01, 0xe2, 0x7c, 0xd0, 0x06, 0x5c, 0x3c, 0x69, 0x3e, 0x69, 0x74, 0xda, 0x47, 0xb5, 0xa3,
+	0xe3, 0x4e, 0xeb, 0xa0, 0x56, 0x6f, 0x36, 0xd6, 0xfe, 0x85, 0xb6, 0x60, 0x3d, 0xd1, 0x5c, 0x6b,
+	0xb5, 0x8c, 0xc3, 0x93, 0x66, 0x63, 0x4d, 0x41, 0x2a, 0x5c, 0x4a, 0x74, 0x34, 0x9a, 0x07, 0xfb,
+	0x27, 0x4d, 0xa3, 0xd9, 0x58, 0xcb, 0xa5, 0x7a, 0xea, 0xb5, 0x27, 0xf5, 0xe6, 0xc1, 0x41, 0xb3,
+	0xb1, 0x96, 0xaf, 0xfe, 0xb9, 0x0e, 0x7a, 0xfb, 0xc3, 0xc3, 0x56, 0xab, 0x69, 0xb4, 0xf9, 0x6f,
+	0xe7, 0x24, 0x60, 0xff, 0x71, 0xc0, 0xbe, 0x4d, 0xbc, 0x17, 0x66, 0x97, 0xa0, 0xef, 0x14, 0x28,
+	0xcd, 0xd3, 0x58, 0x68, 0xb3, 0x1c, 0xa8, 0xbf, 0x72, 0x28, 0x0d, 0xcb, 0x4d, 0x2e, 0x0d, 0xb5,
+	0xe6, 0x5b, 0x91, 0x6e, 0xfa, 0xee, 0xe7, 0xbf, 0xfe, 0xfe, 0x4d, 0x6e, 0x0b, 0x6d, 0x54, 0x22,
+	0xd5, 0x7a, 0xbb, 0x62, 0x46, 0x47, 0xc6, 0xcf, 0x0a, 0x6c, 0x65, 0x28, 0x20, 0xf4, 0xde, 0x59,
+	0x18, 0xa4, 0xf4, 0x99, 0xf6, 0xf0, 0xef, 0x39, 0x4b, 0xd6, 0xd7, 0x05, 0xeb, 0x2b, 0x68, 0x67,
+	0x2a, 0xeb, 0x0a, 0x15, 0x5e, 0xc8, 0x87, 0xd5, 0x84, 0xb8, 0xca, 0xac, 0xe4, 0xff, 0x67, 0x52,
+	0x99, 0x22, 0xcf, 0xf4, 0x92, 0x80, 0xd7, 0x90, 0x9a, 0x84, 0x77, 0xb1, 0x5f, 0x71, 0x47, 0x5e,
+	0x77, 0x80, 0x29, 0x41, 0x5d, 0xb8, 0xd0, 0xc2, 0x7e, 0x4b, 0x9a, 0x33, 0xe1, 0x33, 0xda, 0x43,
+	0x10, 0x3d, 0x1b, 0xe4, 0x0d, 0xfc, 0x3b, 0xa9, 0xf3, 0xd0, 0xdc, 0x44, 0xd2, 0x92, 0x30, 0x13,
+	0xfb, 0x86, 0xc0, 0xbe, 0xaa, 0xed, 0x66, 0x61, 0x57, 0x5e, 0x99, 0xbd, 0xd7, 0xe8, 0x07, 0x05,
+	0xce, 0x8f, 0x0b, 0x3b, 0x54, 0x9d, 0xc7, 0x61, 0x52, 0x6f, 0x6a, 0x77, 0xce, 0xe4, 0x23, 0xe7,
+	0xe0, 0x3f, 0x82, 0xe2, 0x35, 0xed, 0x72, 0x9a, 0xe2, 0x2b, 0xa9, 0xeb, 0x5e, 0x3f, 0x08, 0xae,
+	0xfe, 0xcf, 0x14, 0x31, 0x17, 0x49, 0x19, 0x89, 0xe6, 0x22, 0x4e, 0x11, 0x9d, 0x99, 0xc5, 0xba,
+	0x26, 0x98, 0x6c, 0xeb, 0xd9, 0x4c, 0xd0, 0x1b, 0x51, 0xa7, 0x84, 0x2a, 0x9d, 0x5f, 0xa7, 0x49,
+	0x09, 0x3b, 0x8f, 0xc0, 0xad, 0x19, 0x04, 0xbe, 0x56, 0x22, 0xa1, 0x33, 0x21, 0x72, 0x33, 0x57,
+	0xe6, 0xfb, 0x33, 0x39, 0xce, 0xd3, 0xcc, 0xfa, 0xb6, 0xa0, 0xb5, 0x81, 0xd6, 0x93, 0xb4, 0xa4,
+	0x66, 0x46, 0x5f, 0x28, 0xb0, 0x96, 0x96, 0xcc, 0xe8, 0xee, 0x22, 0x80, 0x69, 0x85, 0x3d, 0xaf,
+	0x2c, 0xe8, 0xf2, 0x14, 0xfc, 0x8a, 0xc5, 0xa3, 0xa0, 0x3e, 0x5c, 0x8c, 0xa3, 0x3a, 0x23, 0xa1,
+	0x52, 0xcf, 0xbc, 0x51, 0x75, 0x81, 0xb3, 0xa3, 0x6b, 0x19, 0x38, 0xce, 0x88, 0xa1, 0xaf, 0x14,
+	0xb8, 0x34, 0x4d, 0xce, 0x67, 0x82, 0xbd, 0xbb, 0x48, 0x29, 0xa6, 0xbe, 0x0c, 0xc2, 0x83, 0x43,
+	0x53, 0xa7, 0xf1, 0xe1, 0x62, 0x03, 0xfd, 0xa4, 0x44, 0x79, 0xc7, 0x82, 0x1e, 0xdd, 0x5b, 0x1c,
+	0x32, 0x59, 0xfe, 0x77, 0xce, 0xea, 0x26, 0x69, 0xde, 0x14, 0x34, 0x4b, 0x7a, 0x26, 0x4d, 0xb9,
+	0x7f, 0xbf, 0x55, 0x60, 0x73, 0xfa, 0x3b, 0x02, 0x3d, 0x58, 0x70, 0x81, 0x4e, 0x79, 0x7c, 0x68,
+	0xf3, 0x9f, 0x0e, 0xd3, 0x6f, 0x99, 0x90, 0xe1, 0xab, 0xe0, 0x35, 0x20, 0xb6, 0xd6, 0xc5, 0x89,
+	0xe7, 0xca, 0x62, 0xc5, 0x9c, 0x78, 0xde, 0x64, 0xae, 0xb1, 0x5b, 0x82, 0xca, 0x75, 0x6d, 0x26,
+	0x15, 0x59, 0xb0, 0x2f, 0x63, 0x42, 0xf1, 0xa3, 0x66, 0x31, 0x42, 0x13, 0x8f, 0xa0, 0x4c, 0x42,
+	0xb2, 0x36, 0xb7, 0x66, 0xd7, 0xc6, 0x04, 0x24, 0x9f, 0x4a, 0x12, 0x40, 0xc8, 0xdb, 0xac, 0x35,
+	0x3f, 0xff, 0x3f, 0x0d, 0xba, 0x2a, 0x60, 0x11, 0x5a, 0x4b, 0xc2, 0xf2, 0x4f, 0x9e, 0xf5, 0x85,
+	0xd4, 0xb3, 0x6c, 0xce, 0x31, 0x3f, 0xfd, 0x11, 0xb7, 0x08, 0x8b, 0xa9, 0xa2, 0x89, 0x7f, 0x8a,
+	0x6b, 0xf1, 0x74, 0x59, 0xe4, 0x75, 0xe7, 0xaf, 0x00, 0x00, 0x00, 0xff, 0xff, 0x68, 0x12, 0xa9,
+	0xdd, 0x09, 0x14, 0x00, 0x00,
 }

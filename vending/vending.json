@@ -45,7 +45,7 @@
         ],
         "summary": "web-hook endpoint representing vended items by this session",
         "description": "The endpoint representing all of the items you've ever purchased - thanks!",
-        "operationId": "getUserVen",
+        "operationId": "vendGetSessionVend",
         "produces": [
           "application/json"
         ],
@@ -76,7 +76,7 @@
         ],
         "summary": "Web-hook and transaction query",
         "description": "This endpoint gives access to transactions created by {TransactionId, UserId}",
-        "operationId": "getTransactionVendById",
+        "operationId": "vendGetVendById",
         "produces": [
           "application/json"
         ],
@@ -120,7 +120,7 @@
         ],
         "summary": "Finds inventory items by query params",
         "description": "Search the inventory by query params",
-        "operationId": "searchForItems",
+        "operationId": "inventorySearchForItems",
         "produces": [
           "application/json"
         ],
@@ -185,7 +185,7 @@
         ],
         "summary": "Finds Pets by status",
         "description": "Get all stores once can vend the inventory by name",
-        "operationId": "getAllItemCategories",
+        "operationId": "inventorySearchAllItemCategories",
         "produces": [
           "application/json"
         ],
@@ -514,7 +514,7 @@
         ],
         "summary": "Logs out current logged in user session",
         "description": "Logs out the given user",
-        "operationId": "logoutUser",
+        "operationId": "sessionLogoutUser",
         "produces": [
           "application/json"
         ],
@@ -537,7 +537,7 @@
         ],
         "summary": "Logs user into the system",
         "description": "Logs in the current user into the vending machine",
-        "operationId": "loginUser",
+        "operationId": "sessionLoginUser",
         "produces": [
           "application/json"
         ],
@@ -558,7 +558,42 @@
           }
         ],
         "responses": {
-          "200": {
+          "400": {
+            "description": "Invalid username/password supplied"
+          }
+        }
+      }
+    },
+    "/session/user": {
+      "post": {
+        "tags": [
+          "session"
+        ],
+        "summary": "Creates a new user",
+        "description": "Creates a user, returns the user id",
+        "operationId": "sessionCreateUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "403" : {
+            "description": "Forbidden: Username already exists"
+          },
+          "201": {
             "description": "successful operation",
             "schema": {
               "type": "object",
@@ -566,7 +601,7 @@
                 "user_id": {
                   "type": "string",
                   "format": "uuid",
-                  "description": "The logged-in user ID"
+                  "description": "The user ID"
                 }
               }
             },
@@ -582,15 +617,10 @@
                 "description": "date in UTC when token expires"
               }
             }
-          },
-          "400": {
-            "description": "Invalid username/password supplied"
           }
         }
-      }
-    },
-    "/session/user": {
-      "post": {
+      },
+      "put": {
         "tags": [
           "session"
         ],
@@ -666,7 +696,7 @@
         ],
         "summary": "Get session or user by ID",
         "description": "Gets the session/user represented by the passed UUID",
-        "operationId": "getUserByName",
+        "operationId": "sessionGetUserByUserId",
         "produces": [
           "application/json"
         ],
@@ -701,7 +731,7 @@
         ],
         "summary": "Updated user",
         "description": "This can only be done by the logged in user.",
-        "operationId": "updateUser",
+        "operationId": "sessionUpdateUser",
         "produces": [
           "application/json"
         ],
@@ -742,7 +772,7 @@
         ],
         "summary": "Delete user",
         "description": "Deletes current user.",
-        "operationId": "deleteUser",
+        "operationId": "sessionDeleteUser",
         "produces": [
           "application/json"
         ],

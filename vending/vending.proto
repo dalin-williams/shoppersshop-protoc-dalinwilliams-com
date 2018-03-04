@@ -6,7 +6,7 @@ import "google/api/annotations.proto";
 
 package shoppersshop_vendingmachine;
 
-message GetAllItemCategoriesResponse {
+message InventorySearchAllItemCategoriesResponse {
     message Item {
         Category categories = 1;
         string store = 2;
@@ -14,7 +14,7 @@ message GetAllItemCategoriesResponse {
     repeated Item items = 1;
 }
 
-message SearchForItemsRequest {
+message InventorySearchForItemsRequest {
     // The category names - can pass many items
     repeated string category = 1;
     // The item names - can pass many items
@@ -23,7 +23,7 @@ message SearchForItemsRequest {
     int32 price = 3;
 }
 
-message SearchForItemsResponse {
+message InventorySearchForItemsResponse {
     repeated Inventory items = 1;
 }
 
@@ -62,16 +62,11 @@ message SessionGetCurrentSessionResponse {
     string session_id = 1;
 }
 
-message LoginUserRequest {
+message SessionLoginUserRequest {
     // The password for login in clear text
     string password = 1;
     // The user name for login
     string username = 2;
-}
-
-message LoginUserResponse {
-    // The logged-in user ID
-    string user_id = 1;
 }
 
 message SessionCreateSessionResponse {
@@ -79,24 +74,34 @@ message SessionCreateSessionResponse {
     string user_id = 1;
 }
 
-message GetUserByNameRequest {
+message SessionCreateUserRequest {
+    // The created user object
+    User body = 1;
+}
+
+message SessionCreateUserResponse {
+    // The user ID
+    string user_id = 1;
+}
+
+message SessionGetUserByUserIdRequest {
     // the user or session ID
     string userId = 1;
 }
 
-message UpdateUserRequest {
+message SessionUpdateUserRequest {
     // Updated user object
     User body = 1;
     // the user or session ID
     string userId = 2;
 }
 
-message DeleteUserRequest {
+message SessionDeleteUserRequest {
     // The name that needs to be deleted
     string userId = 1;
 }
 
-message GetTransactionVendByIdRequest {
+message VendGetVendByIdRequest {
     // The id we want to query for transactions
     string id = 1;
 }
@@ -162,7 +167,7 @@ service SHOPPERSSHOP_VendingMachineService {
     // Finds Pets by status
     // 
     // Get all stores once can vend the inventory by name
-    rpc GetAllItemCategories(google.protobuf.Empty) returns (GetAllItemCategoriesResponse) {
+    rpc InventorySearchAllItemCategories(google.protobuf.Empty) returns (InventorySearchAllItemCategoriesResponse) {
       option (google.api.http) = {
         get: "/vending/v1/inventory"
       };
@@ -170,7 +175,7 @@ service SHOPPERSSHOP_VendingMachineService {
     // Finds inventory items by query params
     // 
     // Search the inventory by query params
-    rpc SearchForItems(SearchForItemsRequest) returns (SearchForItemsResponse) {
+    rpc InventorySearchForItems(InventorySearchForItemsRequest) returns (InventorySearchForItemsResponse) {
       option (google.api.http) = {
         get: "/vending/v1/inventory/search"
       };
@@ -233,7 +238,7 @@ service SHOPPERSSHOP_VendingMachineService {
     // Logs user into the system
     // 
     // Logs in the current user into the vending machine
-    rpc LoginUser(LoginUserRequest) returns (LoginUserResponse) {
+    rpc SessionLoginUser(SessionLoginUserRequest) returns (google.protobuf.Empty) {
       option (google.api.http) = {
         get: "/vending/v1/session/login"
       };
@@ -241,7 +246,7 @@ service SHOPPERSSHOP_VendingMachineService {
     // Logs out current logged in user session
     // 
     // Logs out the given user
-    rpc LogoutUser(google.protobuf.Empty) returns (google.protobuf.Empty) {
+    rpc SessionLogoutUser(google.protobuf.Empty) returns (google.protobuf.Empty) {
       option (google.api.http) = {
         post: "/vending/v1/session/logout"
       };
@@ -251,13 +256,22 @@ service SHOPPERSSHOP_VendingMachineService {
     // Creates a session with the given user
     rpc SessionCreateSession(google.protobuf.Empty) returns (SessionCreateSessionResponse) {
       option (google.api.http) = {
+        put: "/vending/v1/session/user"
+      };
+    }
+    // Creates a new user
+    // 
+    // Creates a user, returns the user id
+    rpc SessionCreateUser(SessionCreateUserRequest) returns (SessionCreateUserResponse) {
+      option (google.api.http) = {
         post: "/vending/v1/session/user"
+        body: "body"
       };
     }
     // Get session or user by ID
     // 
     // Gets the session/user represented by the passed UUID
-    rpc GetUserByName(GetUserByNameRequest) returns (User) {
+    rpc SessionGetUserByUserId(SessionGetUserByUserIdRequest) returns (User) {
       option (google.api.http) = {
         get: "/vending/v1/session/{userId}"
       };
@@ -265,7 +279,7 @@ service SHOPPERSSHOP_VendingMachineService {
     // Updated user
     // 
     // This can only be done by the logged in user.
-    rpc UpdateUser(UpdateUserRequest) returns (google.protobuf.Empty) {
+    rpc SessionUpdateUser(SessionUpdateUserRequest) returns (google.protobuf.Empty) {
       option (google.api.http) = {
         put: "/vending/v1/session/{userId}"
         body: "body"
@@ -274,7 +288,7 @@ service SHOPPERSSHOP_VendingMachineService {
     // Delete user
     // 
     // Deletes current user.
-    rpc DeleteUser(DeleteUserRequest) returns (google.protobuf.Empty) {
+    rpc SessionDeleteUser(SessionDeleteUserRequest) returns (google.protobuf.Empty) {
       option (google.api.http) = {
         delete: "/vending/v1/session/{userId}"
       };
@@ -282,7 +296,7 @@ service SHOPPERSSHOP_VendingMachineService {
     // web-hook endpoint representing vended items by this session
     // 
     // The endpoint representing all of the items you've ever purchased - thanks!
-    rpc GetUserVen(google.protobuf.Empty) returns (Vend) {
+    rpc VendGetSessionVend(google.protobuf.Empty) returns (Vend) {
       option (google.api.http) = {
         get: "/vending/v1/vend"
       };
@@ -290,7 +304,7 @@ service SHOPPERSSHOP_VendingMachineService {
     // Web-hook and transaction query
     // 
     // This endpoint gives access to transactions created by {TransactionId, UserId}
-    rpc GetTransactionVendById(GetTransactionVendByIdRequest) returns (Vend) {
+    rpc VendGetVendById(VendGetVendByIdRequest) returns (Vend) {
       option (google.api.http) = {
         get: "/vending/v1/vend/{id}"
       };
