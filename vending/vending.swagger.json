@@ -150,7 +150,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/protobufEmpty"
+              "$ref": "#/definitions/googleprotobufEmpty"
             }
           }
         },
@@ -177,7 +177,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/protobufEmpty"
+              "$ref": "#/definitions/googleprotobufEmpty"
             }
           }
         },
@@ -201,7 +201,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/protobufEmpty"
+              "$ref": "#/definitions/googleprotobufEmpty"
             }
           }
         },
@@ -277,7 +277,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/protobufEmpty"
+              "$ref": "#/definitions/googleprotobufEmpty"
             }
           }
         },
@@ -311,7 +311,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/protobufEmpty"
+              "$ref": "#/definitions/googleprotobufEmpty"
             }
           }
         },
@@ -373,7 +373,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/shoppersshop_vendingmachineSessionGetUserByUserIdResponse"
+              "$ref": "#/definitions/shoppersshop_vendingmachineUser"
             }
           }
         },
@@ -397,7 +397,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/protobufEmpty"
+              "$ref": "#/definitions/googleprotobufEmpty"
             }
           }
         },
@@ -421,7 +421,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/protobufEmpty"
+              "$ref": "#/definitions/googleprotobufEmpty"
             }
           }
         },
@@ -455,7 +455,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/shoppersshop_vendingmachineVendGetSessionVendResponse"
+              "$ref": "#/definitions/shoppersshop_vendingmachineVend"
             }
           }
         },
@@ -473,7 +473,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/shoppersshop_vendingmachineVendGetVendByIdResponse"
+              "$ref": "#/definitions/shoppersshop_vendingmachineVend"
             }
           }
         },
@@ -515,7 +515,7 @@
       "default": "VEND_STATU_PLACED",
       "title": "Order Status"
     },
-    "protobufEmpty": {
+    "googleprotobufEmpty": {
       "type": "object",
       "description": "service Foo {\n      rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);\n    }\n\nThe JSON representation for `Empty` is empty JSON object `{}`.",
       "title": "A generic empty message that you can re-use to avoid defining duplicated\nempty messages in your APIs. A typical example is to use it as the request\nor the response type of an API method. For instance:"
@@ -676,14 +676,6 @@
         }
       }
     },
-    "shoppersshop_vendingmachineSessionGetUserByUserIdResponse": {
-      "type": "object",
-      "properties": {
-        "user": {
-          "$ref": "#/definitions/shoppersshop_vendingmachineUser"
-        }
-      }
-    },
     "shoppersshop_vendingmachineTag": {
       "type": "object",
       "properties": {
@@ -744,22 +736,6 @@
         "total": {
           "type": "integer",
           "format": "int32"
-        }
-      }
-    },
-    "shoppersshop_vendingmachineVendGetSessionVendResponse": {
-      "type": "object",
-      "properties": {
-        "vend": {
-          "$ref": "#/definitions/shoppersshop_vendingmachineVend"
-        }
-      }
-    },
-    "shoppersshop_vendingmachineVendGetVendByIdResponse": {
-      "type": "object",
-      "properties": {
-        "vend": {
-          "$ref": "#/definitions/shoppersshop_vendingmachineVend"
         }
       }
     },

@@ -53,12 +53,7 @@
           "200": {
             "description": "Vend transaction retrieved",
             "schema": {
-              "type": "object",
-              "properties": {
-                "vend": {
-                  "$ref": "#/definitions/Vend"
-                }
-              }
+              "$ref": "#/definitions/Vend"
             }
           },
           "404": {
@@ -99,12 +94,7 @@
           "200": {
             "description": "Vend transaction retrieved",
             "schema": {
-              "type": "object",
-              "properties": {
-                "vend":{
                   "$ref": "#/definitions/Vend"
-                }
-              }
             }
           },
           "400": {
@@ -317,6 +307,9 @@
             "vendingMachineAuth": [
               "read:cart"
             ]
+          },
+          {
+            "Bearer": []
           }
         ]
       },
@@ -788,12 +781,7 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
                   "$ref": "#/definitions/User"
-                }
-              }
             }
           },
           "400": {
@@ -843,7 +831,12 @@
           "404": {
             "description": "User not found"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -875,7 +868,12 @@
           "405": {
             "description": "Session ID given user ID required to update user"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     }
   },
@@ -1063,6 +1061,9 @@
           "type": "string"
         }
       }
+    },
+    "Empty": {
+
     },
     "ApiResponse": {
       "type": "object",
