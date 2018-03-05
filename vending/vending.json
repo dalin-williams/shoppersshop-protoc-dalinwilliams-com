@@ -53,12 +53,7 @@
           "200": {
             "description": "Vend transaction retrieved",
             "schema": {
-              "type": "object",
-              "properties": {
-                "vend": {
-                  "$ref": "#/definitions/Vend"
-                }
-              }
+              "$ref": "#/definitions/Vend"
             }
           },
           "404": {
@@ -99,12 +94,7 @@
           "200": {
             "description": "Vend transaction retrieved",
             "schema": {
-              "type": "object",
-              "properties": {
-                "vend":{
                   "$ref": "#/definitions/Vend"
-                }
-              }
             }
           },
           "400": {
@@ -788,12 +778,7 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user": {
                   "$ref": "#/definitions/User"
-                }
-              }
             }
           },
           "400": {
@@ -1063,6 +1048,9 @@
           "type": "string"
         }
       }
+    },
+    "Empty": {
+
     },
     "ApiResponse": {
       "type": "object",
