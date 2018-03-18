@@ -17,7 +17,7 @@
   "paths": {
     "/vending/v1/inventory": {
       "get": {
-        "summary": "Finds Pets by status",
+        "summary": "Gets and returns all of the stores and categories associated with said stores",
         "description": "Get all stores once can vend the inventory by name",
         "operationId": "InventorySearchAllItemCategories",
         "responses": {
@@ -59,17 +59,14 @@
           },
           {
             "name": "name",
-            "description": "The item names - can pass many items.",
+            "description": "The item name.",
             "in": "query",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "price",
-            "description": "The category names - can pass many items.",
+            "description": "A price limit - will return items within this price.",
             "in": "query",
             "required": false,
             "type": "integer",
@@ -143,6 +140,30 @@
       }
     },
     "/vending/v1/pay/purchase/{id}": {
+      "delete": {
+        "summary": "Deletes an item from the virtual cart",
+        "description": "Delete a item from your cart",
+        "operationId": "PayDeleteItemFromCart",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/googleprotobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SHOPPERSSHOP_VendingMachineService"
+        ]
+      },
       "put": {
         "summary": "Add an item via id to your cart",
         "operationId": "PayAddToCart",
@@ -329,7 +350,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/shoppersshop_vendingmachineSessionCreateUserResponse"
+              "$ref": "#/definitions/googleprotobufEmpty"
             }
           }
         },
@@ -367,7 +388,7 @@
     "/vending/v1/session/{userId}": {
       "get": {
         "summary": "Get session or user by ID",
-        "description": "Gets the session/user represented by the passed UUID",
+        "description": "Gets the session/user represented by the passed id",
         "operationId": "SessionGetUserByUserId",
         "responses": {
           "200": {
@@ -391,7 +412,7 @@
       },
       "delete": {
         "summary": "Delete user",
-        "description": "Deletes current user.",
+        "description": "Deletes current user",
         "operationId": "SessionDeleteUser",
         "responses": {
           "200": {
@@ -473,7 +494,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/shoppersshop_vendingmachineVend"
+              "$ref": "#/definitions/shoppersshop_vendingmachineVendGetVendByIdResponse"
             }
           }
         },
@@ -551,6 +572,9 @@
     "shoppersshop_vendingmachineInventory": {
       "type": "object",
       "properties": {
+        "category": {
+          "$ref": "#/definitions/shoppersshop_vendingmachineCategory"
+        },
         "cost": {
           "type": "integer",
           "format": "int32"
@@ -561,16 +585,10 @@
         "name": {
           "type": "string"
         },
-        "photoUrls": {
+        "resources": {
           "type": "array",
           "items": {
             "type": "string"
-          }
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/shoppersshop_vendingmachineTag"
           }
         },
         "url": {
@@ -658,32 +676,12 @@
         }
       }
     },
-    "shoppersshop_vendingmachineSessionCreateUserResponse": {
-      "type": "object",
-      "properties": {
-        "user_id": {
-          "type": "string",
-          "title": "The user ID"
-        }
-      }
-    },
     "shoppersshop_vendingmachineSessionGetCurrentSessionResponse": {
       "type": "object",
       "properties": {
         "session_id": {
           "type": "string",
           "title": "The session_id"
-        }
-      }
-    },
-    "shoppersshop_vendingmachineTag": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
         }
       }
     },
@@ -739,12 +737,20 @@
         }
       }
     },
+    "shoppersshop_vendingmachineVendGetVendByIdResponse": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/shoppersshop_vendingmachineVend"
+          }
+        }
+      }
+    },
     "shoppersshop_vendingmachineVendItem": {
       "type": "object",
       "properties": {
-        "category": {
-          "$ref": "#/definitions/shoppersshop_vendingmachineCategory"
-        },
         "item": {
           "$ref": "#/definitions/shoppersshop_vendingmachineInventory"
         },

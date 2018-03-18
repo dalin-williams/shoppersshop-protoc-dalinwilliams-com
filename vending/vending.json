@@ -86,15 +86,17 @@
             "in": "path",
             "description": "The id we want to query for transactions",
             "required": true,
-            "type": "string",
-            "format": "uuid"
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "Vend transaction retrieved",
             "schema": {
-                  "$ref": "#/definitions/Vend"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Vend"
+              }
             }
           },
           "400": {
@@ -128,12 +130,9 @@
           {
             "name": "name",
             "in": "query",
-            "description": "The item names - can pass many items",
+            "description": "The item name",
             "required": true,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
+            "type": "string",
             "collectionFormat": "multi"
           },
           {
@@ -150,7 +149,7 @@
           {
             "name": "price",
             "in": "query",
-            "description": "The category names - can pass many items",
+            "description": "A price limit - will return items within this price",
             "required": false,
             "type": "number",
             "format": "int32"
@@ -183,7 +182,7 @@
         "tags": [
           "inventory"
         ],
-        "summary": "Finds Pets by status",
+        "summary": "Gets and returns all of the stores and categories associated with said stores",
         "description": "Get all stores once can vend the inventory by name",
         "operationId": "inventorySearchAllItemCategories",
         "produces": [
@@ -275,6 +274,47 @@
             "description": "item with id not found"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "pay"
+        ],
+        "summary": "Deletes an item from the virtual cart",
+        "description": "Delete a item from your cart",
+        "operationId": "payDeleteItemFromCart",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Item ID to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Inventory Item not found"
+          }
+        },
+        "security": [
+          {
+            "vendingMachineAuth": [
+              "write:cart"
+            ]
+          },
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/pay/purchase": {
@@ -391,8 +431,7 @@
             "in": "path",
             "description": "ID of order to re-order",
             "required": true,
-            "type": "string",
-            "format": "uuid"
+            "type": "string"
           }
         ],
         "responses": {
@@ -436,8 +475,7 @@
             "in": "path",
             "description": "ID of order that needs to be updated",
             "required": true,
-            "type": "string",
-            "format": "uuid"
+            "type": "string"
           },
           {
             "in": "body",
@@ -496,8 +534,7 @@
             "in": "path",
             "description": "Order ID to delete",
             "required": true,
-            "type": "string",
-            "format": "uuid"
+            "type": "string"
           }
         ],
         "responses": {
@@ -550,13 +587,8 @@
           "201": {
             "description": "successful operation",
             "schema": {
-              "type": "object",
-              "properties": {
-                "session_id": {
-                  "type": "string",
-                  "description": "The session_id"
-                }
-              }
+              "type": "string",
+              "description": "The session_id"
             },
             "headers": {
               "X-Rate-Limit": {
@@ -625,6 +657,14 @@
           }
         ],
         "responses": {
+          "200" : {
+            "description": "successfully logged out",
+            "schema": {
+              "type": "string",
+              "description": "the ghost order if a user want's to reload their cart",
+              "format": "uri"
+            }
+          },
           "400": {
             "description": "Invalid username/password supplied"
           }
@@ -660,14 +700,8 @@
           "201": {
             "description": "successful operation",
             "schema": {
-              "type": "object",
-              "properties": {
-                "user_id": {
-                  "type": "string",
-                  "format": "uuid",
-                  "description": "The user ID"
-                }
-              }
+              "type": "string",
+              "description": "The user ID"
             },
             "headers": {
               "X-Rate-Limit": {
@@ -705,7 +739,6 @@
               "properties": {
                 "user_id": {
                   "type": "string",
-                  "format": "uuid",
                   "description": "The user ID"
                 }
               }
@@ -730,7 +763,6 @@
               "properties": {
                 "session_id": {
                   "type": "string",
-                  "format": "uuid",
                   "description": "The session ID"
                 }
               }
@@ -762,7 +794,7 @@
           "session"
         ],
         "summary": "Get session or user by ID",
-        "description": "Gets the session/user represented by the passed UUID",
+        "description": "Gets the session/user represented by the passed id",
         "operationId": "sessionGetUserByUserId",
         "produces": [
           "application/json"
@@ -773,8 +805,7 @@
             "in": "path",
             "description": "the user or session ID",
             "required": true,
-            "type": "string",
-            "format": "uuid"
+            "type": "string"
           }
         ],
         "responses": {
@@ -808,8 +839,7 @@
             "in": "path",
             "description": "the user or session ID",
             "required": true,
-            "type": "string",
-            "format": "uuid"
+            "type": "string"
           },
           {
             "in": "body",
@@ -822,6 +852,9 @@
           }
         ],
         "responses": {
+          "200" :{
+            "description": "The user was updated successfully"
+          },
           "400": {
             "description": "Invalid user supplied"
           },
@@ -843,7 +876,7 @@
           "session"
         ],
         "summary": "Delete user",
-        "description": "Deletes current user.",
+        "description": "Deletes current user",
         "operationId": "sessionDeleteUser",
         "produces": [
           "application/json"
@@ -854,11 +887,13 @@
             "in": "path",
             "description": "The name that needs to be deleted",
             "required": true,
-            "type": "string",
-            "format": "uuid"
+            "type": "string"
           }
         ],
         "responses": {
+          "200": {
+            "description": "User successfully deleted"
+          },
           "400": {
             "description": "Invalid username supplied"
           },
@@ -901,7 +936,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "format": "uuid"
+          "format": "string"
         },
         "name": {
           "type": "string"
@@ -913,18 +948,15 @@
         "url": {
           "type": "string"
         },
-        "photoUrls": {
+        "resources": {
           "type": "array",
           "items": {
             "type": "string",
             "format": "uri"
           }
         },
-        "tags": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Tag"
-          }
+        "category": {
+          "$ref": "#/definitions/Category"
         }
       },
       "xml": {
@@ -936,7 +968,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "format": "uuid"
+          "format": "string"
         },
         "name": {
           "type": "string"
@@ -951,7 +983,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "format": "uuid"
+          "format": "string"
         },
         "username": {
           "type": "string"
@@ -986,7 +1018,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "format": "uuid"
+          "format": "string"
         },
         "name": {
           "type": "string"
@@ -1004,7 +1036,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "format": "uuid"
+          "format": "string"
         },
         "total": {
           "type": "number",
@@ -1017,9 +1049,6 @@
             "properties": {
               "item": {
                 "$ref": "#/definitions/Inventory"
-              },
-              "category": {
-                "$ref": "#/definitions/Category"
               },
               "quantity": {
                 "type": "number",
